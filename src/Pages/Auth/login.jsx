@@ -1,9 +1,11 @@
-import { react, useState } from "react";
+import { useState } from "react";
 import Button from "../../Elements/Button";
 import kristLogo from "../../../assets/kristlog.svg";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [check, setCheck] = useState(false);
+  const navigate = useNavigate();
 
   const handleCheck = () => {
     setCheck(!check);
@@ -28,7 +30,7 @@ const Home = () => {
           </div>
 
           <form className="space-y-4">
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-1">
               <label className="text-sm font-medium" htmlFor="email">
                 Email Address
               </label>
@@ -40,7 +42,7 @@ const Home = () => {
               />
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-1">
               <label className="text-sm font-medium" htmlFor="password">
                 Password
               </label>
@@ -63,13 +65,16 @@ const Home = () => {
                 />
                 <label
                   // onClick={handleCheck}
-                  className="cursor-pointer text-gray-700"
+                  className="cursor-pointer text-gray-700 hover:text-black hover:font-medium transition duration-300"
                   htmlFor="checkbox"
                 >
                   Remember Me
                 </label>
               </div>
-              <p className="cursor-pointer text-gray-700 hover:underline">
+              <p
+                onClick={() => navigate("/forgotpassword")}
+                className="cursor-pointer text-gray-700 hover:text-black hover:font-medium transition duration-300"
+              >
                 Forgot Password?
               </p>
             </div>

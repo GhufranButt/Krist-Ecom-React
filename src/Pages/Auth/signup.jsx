@@ -20,17 +20,40 @@ const Home = () => {
         <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg space-y-8">
           <div className="flex flex-col gap-2">
             <h1 className="text-black text-3xl lg:text-[40px] sm:text-4xl font-bold">
-              Welcome 👋
+              Create New Account
             </h1>
             <p className="text-gray-500 text-sm sm:text-base">
-              Please login here
+              Please enter details
             </p>
           </div>
 
           <form className="space-y-4">
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium" htmlFor="firstName">
+                First Name
+              </label>
+              <input
+                className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                id="firstName"
+                type="text"
+                placeholder="Enter first name"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium" htmlFor="lastName">
+                Last Name
+              </label>
+              <input
+                className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                id="lastName"
+                type="text"
+                placeholder="Enter last name"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
               <label className="text-sm font-medium" htmlFor="email">
-                Email Address
+                Email
               </label>
               <input
                 className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
@@ -39,8 +62,7 @@ const Home = () => {
                 placeholder="Enter your email"
               />
             </div>
-
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-1">
               <label className="text-sm font-medium" htmlFor="password">
                 Password
               </label>
@@ -52,25 +74,25 @@ const Home = () => {
               />
             </div>
 
-            <div className="flex justify-between items-center text-sm">
+            <div className="flex justify-start gap-2 items-center text-sm">
               <div className="flex gap-2 items-center">
                 <input
                   type="checkbox"
-                  id="checkbox"
+                  id="check"
                   className="accent-black cursor-pointer"
                   checked={check}
                   onChange={handleCheck}
                 />
                 <label
                   // onClick={handleCheck}
-                  className="cursor-pointer text-gray-700"
-                  htmlFor="checkbox"
+                  className="cursor-pointer text-gray-700 hover:text-black hover:font-medium transition duration-300"
+                  htmlFor="check"
                 >
-                  Remember Me
+                  I agree to
                 </label>
               </div>
-              <p className="cursor-pointer text-gray-700 hover:underline">
-                Forgot Password?
+              <p className="cursor-pointer text-black font-bold">
+                Terms & Conditions
               </p>
             </div>
           </form>

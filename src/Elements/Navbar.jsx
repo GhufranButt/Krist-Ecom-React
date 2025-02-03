@@ -1,0 +1,109 @@
+import React from "react";
+import kristLogo from "../../assets/kristlog.svg";
+import Button from "./Button.jsx";
+import upArrow from "../../assets/arrow-up.svg";
+import { useState } from "react";
+import shoppingBag from "../../assets/shoppingBag.png";
+import favourite from "../../assets/favourite.png";
+import searchSvg from "../../assets/search.svg";
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleList = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  return (
+    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-10 dark:bg-neutral-800">
+      <nav className="max-w-[103rem] w-full relative mx-auto px-4 flex flex-wrap basis-full items-center justify-between">
+        <a
+          className="sm:order-1 flex justify-center items-center text-xl font-semibold dark:text-white focus:outline-none focus:opacity-80"
+          href="#"
+        >
+          <img src={kristLogo} className="h-[40px] w-[40px]" />
+          <p className="text-black text-[40px]">Krist</p>
+        </a>
+        <div className="sm:order-3 flex items-center gap-x-8">
+          <img src={searchSvg} className="cursor-pointer w-[30px] h-[30px]" />
+          <img src={favourite} className="cursor-pointer w-[30px] h-[30px]" />
+          <img src={shoppingBag} className="cursor-pointer w-[30px] h-[30px]" />
+          <Button text="Login" />
+        </div>
+        <div
+          id="hs-navbar-alignment"
+          className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:grow-0 sm:basis-auto sm:block sm:order-2"
+          aria-labelledby="hs-navbar-alignment-collapse"
+        >
+          <div className="flex flex-col gap-12 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:ps-5">
+            <a
+              className="font-medium text-[25px] text-gray-600 focus:outline-none"
+              href="#"
+              aria-current="page"
+            >
+              Home
+            </a>
+
+            <div
+              onClick={toggleList}
+              className="flex justify-center items-center gap-3 cursor-pointer mx-auto "
+            >
+              <a
+                className="font-medium text-gray-600 text-[25px] hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                href="#"
+              >
+                Shop
+              </a>
+              <img
+                src={upArrow}
+                className={`w-4 h-4 transition-transform ${
+                  isOpen ? "rotate-180" : ""
+                }`}
+              />
+              {isOpen ? (
+                <div
+                  onClick={() => setIsOpen(false)}
+                  className="bg-[#FFFFFF] text-black shadow-xl ring-2 ring-slate-100 items-center justify-center ml-80 absolute top-20 w-[1000px] h-[500px] "
+                >
+                  <ul>
+                    <li>nsma</li>
+                    <li>mams</li>
+                    <li>msams,</li>
+                    <li>ksal</li>
+                    <li>0090</li>
+                    <li>kksla</li>
+                    <li>llll</li>
+                    <li>mmmm</li>
+                  </ul>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+
+            <a
+              className="font-medium text-gray-600 text-[25px] hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+              href="#"
+            >
+              Our Story
+            </a>
+            <a
+              className="font-medium text-gray-600 text-[25px] hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+              href="#"
+            >
+              Blog
+            </a>
+            <a
+              className="font-medium text-gray-600 text-[25px] hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+              href="#"
+            >
+              Contact Us
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+export default Navbar;
