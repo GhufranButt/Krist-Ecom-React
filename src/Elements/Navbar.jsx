@@ -6,6 +6,7 @@ import { useState } from "react";
 import shoppingBag from "../../assets/shoppingBag.png";
 import favourite from "../../assets/favourite.png";
 import searchSvg from "../../assets/search.svg";
+import categories from "../Utils/helper.js";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,24 +61,32 @@ const Navbar = () => {
                   isOpen ? "rotate-180" : ""
                 }`}
               />
-              {isOpen ? (
-                <div
-                  onClick={() => setIsOpen(false)}
-                  className="bg-[#FFFFFF] text-black shadow-xl ring-2 ring-slate-100 items-center justify-center ml-80 absolute top-20 w-[1000px] h-[500px] "
-                >
-                  <ul>
-                    <li>nsma</li>
-                    <li>mams</li>
-                    <li>msams,</li>
-                    <li>ksal</li>
-                    <li>0090</li>
-                    <li>kksla</li>
-                    <li>llll</li>
-                    <li>mmmm</li>
-                  </ul>
+              {isOpen && (
+                <div className="bg-[#FFFFFF] flex flex-col lg:flex-row items-start text-white shadow-xl ring-2 ring-slate-100 absolute top-20 left-32 px-5 py-6">
+                  {categories.map((category, index) => (
+                    <div
+                      key={index}
+                      className={`flex flex-col gap-4 border-gray-200 px-4 ${
+                        index === 0
+                          ? "border-r"
+                          : index !== categories.length
+                          ? "border-l"
+                          : ""
+                      }`}
+                    >
+                      <h3 className="font-bold text-lg text-black">
+                        {category.name}
+                      </h3>
+                      <div className="flex flex-col text-gray-600 gap-3">
+                        {category.items.map((item, i) => (
+                          <p key={i} className="text-nowrap text-sm">
+                            {item}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ) : (
-                ""
               )}
             </div>
 
