@@ -11,6 +11,7 @@ import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 const home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [prevSlide, setPrevSlide] = useState(0);
   const sliderRef = useRef(null);
 
   const settings = {
@@ -19,10 +20,8 @@ const home = () => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
-    afterChange: (currentSlide) => setCurrentSlide(currentSlide + 1),
+    afterChange: (current) => setCurrentSlide(current),
   };
-
-  console.log("currentVals", currentSlide);
 
   return (
     <div className="flex flex-col gap-8">
@@ -52,7 +51,7 @@ const home = () => {
               sliderRef.current.slickNext();
             }}
             className={`px-6 py-4 rounded-[15px] duration-300 ease-in-out transform hover:scale-105 text-white cursor-pointer ${
-              currentSlide === categories.length - 1
+              currentSlide === categories.length - 3
                 ? "bg-gray-200"
                 : "bg-black"
             }`}
