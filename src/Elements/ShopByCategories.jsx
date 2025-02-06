@@ -1,63 +1,44 @@
-import react, { useRef, useState } from "react";
+import React, { useState, useRef } from "react";
+import categories from "../Utils/helper";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Navbar from "../../Elements/Navbar";
-import BannerImg from "../../../assets/HomeBannerImg.png";
-import SideBar from "../../Elements/SideBar.jsx";
-import Footer from "../../Elements/Footer.jsx";
-import ShopByCategories from "../../Elements/ShopByCategories.jsx";
-import { FaBars } from "react-icons/fa6";
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
-const home = () => {
-  const [openBar, setopenBar] = useState(false);
+const ShopByCategories = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const sliderRef = useRef(null);
 
-  const openSideBar = () => {
-    setopenBar((prev) => !prev);
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    afterChange: (current) => setCurrentSlide(current),
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          infinite: true,
+          dots: true,
+        },
+      },
+
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 1,
+          initialSlide: 2,
+        },
+      },
+    ],
   };
 
   return (
-    <div className="flex flex-col relative">
-      <div className="flex items-center  gap-4 px-2 xl:px-7 ">
-        <Navbar />
-        <FaBars
-          onClick={openSideBar}
-          className="cursor-pointer relative block lg:hidden"
-        />
-
-        {openBar && (
-          <div className="fixed top-0 right-0 z-[999]">
-            <button
-              type="button"
-              onClick={openSideBar}
-              className="text-gray-400 absolute bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 top-5 end-20 flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
-            >
-              <svg
-                className="w-3 h-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                />
-              </svg>
-            </button>
-            <SideBar />
-          </div>
-        )}
-      </div>
-      <div className="px-2 xl:px-6">
-        <img src={BannerImg} />
-      </div>
-
-      <ShopByCategories />
-
-      {/* <div className=" flex gap-20  items-center justify-center xl:justify-around ">
+    <div className="">
+      <div className=" flex gap-20  items-center justify-center xl:justify-around ">
         <h1 className="text-black items-center justify-center text-[15px] xl:text-[30px] font-bold">
           Shop By Categories
         </h1>
@@ -106,10 +87,9 @@ const home = () => {
             ))}
           </Slider>
         </div>
-      </div> */}
-      <Footer />
+      </div>
     </div>
   );
 };
 
-export default home;
+export default ShopByCategories;

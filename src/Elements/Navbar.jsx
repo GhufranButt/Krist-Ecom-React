@@ -6,6 +6,7 @@ import { useState } from "react";
 import shoppingBag from "../../assets/shoppingBag.png";
 import favourite from "../../assets/favourite.png";
 import searchSvg from "../../assets/search.svg";
+
 import categories from "../Utils/helper.js";
 
 const Navbar = () => {
@@ -16,27 +17,37 @@ const Navbar = () => {
   };
 
   return (
-    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-10 dark:bg-neutral-800">
-      <nav className="max-w-[103rem] w-full relative mx-auto px-4 flex flex-wrap basis-full items-center justify-between">
+    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm  dark:bg-neutral-800">
+      <nav className="max-w-[103rem] w-full relative mx-auto  flex flex-wrap basis-full py-4 items-center justify-between">
         <a
           className="sm:order-1 flex justify-center items-center text-xl font-semibold dark:text-white focus:outline-none focus:opacity-80"
           href="#"
         >
-          <img src={kristLogo} className="h-[40px] w-[40px]" />
-          <p className="text-black text-[40px]">Krist</p>
+          <img src={kristLogo} className="h-[25px] xl:h-[40px] xl:w-[40px]" />
+          <p className="text-black text-[25px] xl:text-[40px]">Krist</p>
         </a>
-        <div className="sm:order-3 flex items-center gap-x-8">
-          <img src={searchSvg} className="cursor-pointer w-[30px] h-[30px]" />
-          <img src={favourite} className="cursor-pointer w-[30px] h-[30px]" />
-          <img src={shoppingBag} className="cursor-pointer w-[30px] h-[30px]" />
-          <Button text="Login" />
+        <div className="sm:order-3 flex justify-between items-center gap-4 xl:gap-x-8">
+          <img
+            src={searchSvg}
+            className="cursor-pointer h-[20px] w-[20px] xl:w-[30px] xl:h-[30px]"
+          />
+          <img
+            src={favourite}
+            className="cursor-pointer h-[20px] w-[20px] xl:w-[30px] xl:h-[30px]"
+          />
+          <img
+            src={shoppingBag}
+            className="cursor-pointer h-[20px] w-[20px] xl:w-[30px] xl:h-[30px]"
+          />
+
+          <Button text="Login" baseDisplay="hidden" />
         </div>
         <div
           id="hs-navbar-alignment"
           className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:grow-0 sm:basis-auto sm:block sm:order-2"
           aria-labelledby="hs-navbar-alignment-collapse"
         >
-          <div className="flex flex-col gap-12 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:ps-5">
+          <div className=" hidden lg:flex  flex-col gap-12 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:ps-5">
             <a
               className="font-medium text-[25px] text-gray-600 focus:outline-none"
               href="#"
