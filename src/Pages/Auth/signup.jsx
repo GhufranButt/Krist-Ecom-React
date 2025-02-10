@@ -3,7 +3,19 @@ import Button from "../../Elements/Button";
 import kristLogo from "../../../assets/kristlog.svg";
 
 const Home = () => {
+  const values = { firstName: "", lastName: "", email: "", password: "" };
+  const [formValues, setFormValues] = useState(values);
   const [check, setCheck] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+    console.log(formValues);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   const handleCheck = () => {
     setCheck(!check);
@@ -27,16 +39,18 @@ const Home = () => {
             </p>
           </div>
 
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium" htmlFor="firstName">
                 First Name
               </label>
               <input
                 className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                id="firstName"
+                name="firstName"
                 type="text"
                 placeholder="Enter first name"
+                value={formValues.firstName}
+                onChange={handleChange}
               />
             </div>
 
@@ -46,9 +60,11 @@ const Home = () => {
               </label>
               <input
                 className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                id="lastName"
+                name="lastName"
                 type="text"
                 placeholder="Enter last name"
+                value={formValues.lastName}
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col gap-1">
@@ -57,9 +73,11 @@ const Home = () => {
               </label>
               <input
                 className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                id="email"
+                name="email"
                 type="email"
                 placeholder="Enter your email"
+                value={formValues.email}
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col gap-1">
@@ -68,9 +86,11 @@ const Home = () => {
               </label>
               <input
                 className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                id="password"
+                name="password"
                 type="password"
                 placeholder="Enter your password"
+                value={formValues.password}
+                onChange={handleChange}
               />
             </div>
 

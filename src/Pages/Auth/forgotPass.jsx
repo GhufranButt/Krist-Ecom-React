@@ -5,6 +5,8 @@ import ArrowLeft from "../../../assets/arrow-left.svg";
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
+  const values = { email: "" };
+  const [formValues, setFormValues] = useState(values);
   const navigate = useNavigate();
 
   return (
@@ -43,7 +45,7 @@ const ForgotPassword = () => {
               </label>
               <input
                 className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                id="email"
+                name="email"
                 type="email"
                 placeholder="Enter your email"
               />

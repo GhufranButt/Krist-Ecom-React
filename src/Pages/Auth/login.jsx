@@ -4,12 +4,25 @@ import kristLogo from "../../../assets/kristlog.svg";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const values = { email: "", password: "" };
+  const [formValues, setFormValues] = useState(values);
   const [check, setCheck] = useState(false);
   const navigate = useNavigate();
 
   const handleCheck = () => {
     setCheck(!check);
   };
+
+  const handleChange = () => {
+    const { name, value } = formValues;
+
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const handleSubmit = () => {
+    e.preventDefault();
+  };
+
   return (
     <div className="flex md:flex-row justify-center items-center h-screen">
       <div className="bg-[url(/assets/Girl.png)] bg-no-repeat  w-[50%] hidden lg:flex  lg:w-1/2 h-[50vh] lg:h-screen  bg-cover bg-center">
@@ -29,16 +42,18 @@ const Home = () => {
             </p>
           </div>
 
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium" htmlFor="email">
                 Email Address
               </label>
               <input
                 className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                id="email"
+                name="email"
+                value={formValues.email}
                 type="email"
                 placeholder="Enter your email"
+                onChange={handleChange}
               />
             </div>
 
@@ -48,9 +63,11 @@ const Home = () => {
               </label>
               <input
                 className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                id="password"
+                name="password"
+                value={formValues.password}
                 type="password"
                 placeholder="Enter your password"
+                onChange={handleChange}
               />
             </div>
 

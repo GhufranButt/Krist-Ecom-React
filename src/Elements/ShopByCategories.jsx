@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import categories from "../Utils/helper";
+import categories from "../Utils/shopByCatData.js";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -48,7 +48,7 @@ const ShopByCategories = () => {
             onClick={() => {
               sliderRef.current.slickPrev();
             }}
-            className={`px-5 py-3 rounded-[9px] xl:px-6 xl:py-4 shadow-lg xl:rounded-[15px] duration-300 ease-in-out transform hover:scale-105 text-white cursor-pointer ${
+            className={`px-5 py-3 rounded-[9px] xl:px-6 xl:py-4 shadow-lg xl:rounded-[15px] button text-white  ${
               currentSlide === 0 ? "bg-gray-200" : "bg-black"
             }`}
           >
@@ -58,7 +58,7 @@ const ShopByCategories = () => {
             onClick={() => {
               sliderRef.current.slickNext();
             }}
-            className={`px-5 py-3 rounded-[9px] xl:px-6 xl:py-4 xl:rounded-[15px] duration-300 ease-in-out transform hover:scale-105 text-white cursor-pointer ${
+            className={`px-5 py-3 rounded-[9px] xl:px-6 xl:py-4 xl:rounded-[15px] button  text-white  ${
               currentSlide === categories.length - 3
                 ? "bg-gray-200"
                 : "bg-black"
@@ -80,7 +80,7 @@ const ShopByCategories = () => {
               >
                 <div className="bg-black opacity-[50%] w-full h-full hover:opacity-0 transition-all duration-500   absolute"></div>
                 <img src={obj.image} className="w-full h-full" />
-                <button className="w-[60%] p-2 rounded-[9px] text-[15px] xl:px-4 xl:py-3 xl:rounded-[15px] xl:text-[20px] cursor-pointer absolute bg-[#FFFFFF] xl:w-[60%]  bottom-10 left-[50%] -translate-x-1/2 text-center text-gray-600 font-semibold">
+                <button className="w-[60%] p-2 rounded-[9px] text-[15px] xl:px-4 xl:py-3 xl:rounded-[15px] xl:text-[20px] button absolute bg-[#FFFFFF] xl:w-[60%]  bottom-10 left-[50%] -translate-x-1/2 text-center text-gray-600 font-semibold">
                   {obj.name}
                 </button>
               </div>

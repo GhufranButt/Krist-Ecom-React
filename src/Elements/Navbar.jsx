@@ -7,12 +7,12 @@ import shoppingBag from "../../assets/shoppingBag.png";
 import favourite from "../../assets/favourite.png";
 import searchSvg from "../../assets/search.svg";
 
-import categories from "../Utils/helper.js";
+import categories from "../Utils/shopByCatData.js";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleList = () => {
+  const toggleList = () => {  
     setIsOpen((prev) => !prev);
   };
 

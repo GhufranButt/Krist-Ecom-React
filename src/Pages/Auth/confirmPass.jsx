@@ -5,6 +5,8 @@ import ArrowLeft from "../../../assets/arrow-left.svg";
 import { useNavigate } from "react-router-dom";
 
 const ConfrimPassword = () => {
+  const values = { password: "", confirmpassword: "" };
+  const [formValues, setFormValues] = useState(values);
   const navigate = useNavigate();
 
   return (
@@ -46,7 +48,7 @@ const ConfrimPassword = () => {
                 </label>
                 <input
                   className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                  id="password"
+                  name="password"
                   type="password"
                   placeholder="Enter your password"
                 />
@@ -60,7 +62,7 @@ const ConfrimPassword = () => {
                 </label>
                 <input
                   className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                  id="confirmpassword"
+                  name="confirmpassword"
                   type="password"
                   placeholder="Enter your password"
                 />

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
-import categories from "../../src/Utils/helper";
+import categories from "../Utils/shopByCatData";
 
 const SideBa = () => {
   const [isOpen, setIsOpen] = useState(false);
