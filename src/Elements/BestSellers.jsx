@@ -21,50 +21,43 @@ const BestSellers = () => {
     afterChange: (current) => setCurrentSlide(current),
     responsive: [
       {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 375,
-        settings: {
-          slidesToShow: 1,
-          initialSlide: 2,
-        },
-      },
-      {
         breakpoint: 640,
         settings: {
-          slidesToShow: 2,
-          initialSlide: 2,
+          slidesToShow: 1,
+          slidesToScroll: 1,
         },
       },
       {
         breakpoint: 768,
         settings: {
           slidesToShow: 2,
-          initialSlide: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 950,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          arrows: false,
         },
       },
     ],
   };
 
   return (
-    <div className="flex flex-col justify-center items-center  gap-5">
+    <div className="flex flex-col justify-center py-10 items-center gap-5">
       <div className="flex items-center gap-14 sm:gap-[300px]">
         <h1 className="text-[20px] sm:text-[25px] xl:text-[30px] barlow-bold">
           Our Bestsellers
         </h1>
-        {/* Button for slider */}
-        <div className="flex gap-3 xl:hidden">
+
+        <div className="flex gap-3 lg:hidden">
           <button
             onClick={() => {
               sliderRef.current.slickPrev();
             }}
-            className={`px-5 py-3 rounded-[9px] xl:px-6 xl:py-4 shadow-lg xl:rounded-[15px] button text-white  ${
+            className={`px-5 py-3 rounded-[9px] xl:px-6 xl:py-4 shadow-lg xl:rounded-[15px] button text-white ${
               currentSlide === 0 ? "bg-gray-200" : "bg-black"
             }`}
           >
@@ -74,7 +67,7 @@ const BestSellers = () => {
             onClick={() => {
               sliderRef.current.slickNext();
             }}
-            className={`px-5 py-3 rounded-[9px] xl:px-6 xl:py-4 xl:rounded-[15px] button  text-white  ${
+            className={`px-5 py-3 rounded-[9px] xl:px-6 xl:py-4 xl:rounded-[15px] button text-white ${
               currentSlide === bestProduct.length - 3
                 ? "bg-gray-200"
                 : "bg-black"
@@ -88,10 +81,11 @@ const BestSellers = () => {
           </button>
         </div>
       </div>
-      <div className="hidden lg:grid grid-cols-4 gap-10 justify-center items-center">
+
+      <div className="hidden lg:grid grid-cols-4 lg:px-10 gap-10 justify-center items-center">
         {bestProduct.map((obj) => (
           <div className="flex flex-col gap-2 relative group" key={obj.id}>
-            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer shadow-lg h-[350px] w-[280px] p-4 flex items-center justify-center relative">
+            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  shadow-lg lg:h-[300px] xl:h-[350px] xl:w-[280px] p-4 flex items-center justify-center relative">
               <img
                 src={obj.image}
                 className="w-full h-auto max-h-full object-cover rounded-lg"
@@ -123,7 +117,7 @@ const BestSellers = () => {
           </div>
         ))}
       </div>
-      {/* Slider for small screens  */}
+
       <div className="lg:hidden justify-center items-center w-[280px] sm:w-[600px] md:w-[700px]">
         <Slider ref={sliderRef} {...settings}>
           {bestProduct.map((obj) => (

@@ -71,7 +71,7 @@ const InstagramStories = () => {
                   src={img}
                   className=" flex relative hover:opacity-[80%] h-full object-cover w-[250px]"
                 />
-                <div className="absolute bottom-30 button bg-[#ffff] rounded-full p-2 left-[50%] -translate-x-1/2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
+                <div className="absolute top-1/2 -translate-y-1/2 button bg-[#ffff] rounded-full p-2 left-[50%] -translate-x-1/2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
                   <GrInstagram size={25} />
                 </div>
               </div>

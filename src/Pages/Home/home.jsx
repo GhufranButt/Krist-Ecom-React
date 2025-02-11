@@ -61,8 +61,8 @@ const home = () => {
         <ShopByCategories />
       </div>
       <BestSellers />
-      <InstagramStories />
       <CustomerReviews />
+      <InstagramStories />
       <Footer />
     </div>
   );
