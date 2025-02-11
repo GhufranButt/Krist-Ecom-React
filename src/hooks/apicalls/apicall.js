@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.10.133:3001/review";
+const BASE_URL = "http://192.168.10.132:3001/review";
 
 const apiCall = async (url, method, body = null) => {
   const options = {

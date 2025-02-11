@@ -22,7 +22,7 @@ const ShopByCategories = () => {
         settings: {
           slidesToShow: 2,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
 
@@ -37,9 +37,9 @@ const ShopByCategories = () => {
   };
 
   return (
-    <div className="">
-      <div className=" flex gap-20  items-center justify-center xl:justify-around ">
-        <h1 className="text-black items-center justify-center text-[15px] xl:text-[30px] font-bold">
+    <div className="flex flex-col justify-center items-center">
+      <div className="flex items-center gap-14 sm:gap-[250px] xl:gap-[400px] xl:justify-around ">
+        <h1 className="text-black text-[20px] sm:text-[25px] xl:text-[30px] barlow-bold">
           Shop By Categories
         </h1>
 
@@ -71,12 +71,12 @@ const ShopByCategories = () => {
         </div>
       </div>
       <div className=" px-5 py-5  h-full w-full flex justify-center items-center">
-        <div className="  w-[80%]">
+        <div className="xl:w-[80%] w-[80%] md:w-[85%] sm:w-[100%]">
           <Slider ref={sliderRef} {...settings}>
             {categories.map((obj, ind) => (
               <div
                 key={ind}
-                className=" h-[400px] w-[130px] xl:h-[650px] xl:w-[200px] relative flex justify-center items-center"
+                className=" h-[400px] xl:h-[650px]  relative flex justify-center items-center"
               >
                 <div className="bg-black opacity-[50%] w-full h-full hover:opacity-0 transition-all duration-500   absolute"></div>
                 <img src={obj.image} className="w-full h-full" />

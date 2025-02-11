@@ -1,24 +1,69 @@
-import React from "react";
-import model1Img from "../../assets/model1.jpg";
-import model2Img from "../../assets/model2.jpg";
-import model3Img from "../../assets/model3.jpg";
-import model4Img from "../../assets/model4.jpg";
+import React, { useState, useRef } from "react";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { BiDollarCircle } from "react-icons/bi";
 import { GrInstagram } from "react-icons/gr";
 import { FaHeadphones } from "react-icons/fa6";
 import { LuCreditCard } from "react-icons/lu";
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import model1Img from "../../assets/model1.jpg";
+import model2Img from "../../assets/model2.jpg";
+import model3Img from "../../assets/model3.jpg";
+import model4Img from "../../assets/model4.jpg";
 
 const images = [model1Img, model2Img, model4Img, model3Img];
 
 const InstagramStories = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const sliderRef = useRef(null);
+
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    afterChange: (current) => setCurrentSlide(current),
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 375,
+        settings: {
+          slidesToShow: 1,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 1,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          initialSlide: 2,
+        },
+      },
+    ],
+  };
+
   return (
     <div className="flex-flex-col py-10 px-5 space-y-10">
       <p className="text-[28px] text-center  barlow-semibold ">
         Our Instagram Stories
       </p>
-      <div className="flex flex-col gap-16 justify-center items-center">
-        <div className="flex h-[280px] justify-center w-full gap-10 ">
+
+      <div className="flex flex-col gap-4  justify-center items-center">
+        <div className=" grid grid-cols-2 md:grid-cols-4 justify-center gap-10">
           {images.map((img) => {
             return (
               <div className="relative group">
@@ -34,7 +79,7 @@ const InstagramStories = () => {
           })}
         </div>
 
-        <div className="flex w-full justify-center gap-[93px]">
+        <div className="flex flex-col md:flex-row w-full justify-center gap-[40px] xl:gap-[93px]">
           <div className="flex flex-col gap-2 barlow-regular w-[200px] ">
             <LiaShippingFastSolid size={35} />
             <div>
