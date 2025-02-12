@@ -10,6 +10,7 @@ import InstagramStories from "../../Elements/InstagramStories.jsx";
 import { FaBars } from "react-icons/fa6";
 import BestSellers from "../../Elements/BestSellers.jsx";
 import CustomerReviews from "../../Elements/CustomerReviews.jsx";
+import CountDown from "../../Elements/CountDown.jsx";
 
 const home = () => {
   const [openBar, setopenBar] = useState(false);
@@ -61,6 +62,7 @@ const home = () => {
         <ShopByCategories />
       </div>
       <BestSellers />
+      <CountDown />
       <CustomerReviews />
       <InstagramStories />
       <Footer />

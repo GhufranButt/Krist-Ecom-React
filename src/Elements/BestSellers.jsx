@@ -44,9 +44,10 @@ const BestSellers = () => {
       },
     ],
   };
+  console.log("current slide", currentSlide);
 
   return (
-    <div className="flex flex-col justify-center py-10 items-center gap-5">
+    <div className="flex flex-col justify-center py-3 items-center gap-5">
       <div className="flex items-center gap-14 sm:gap-[300px]">
         <h1 className="text-[20px] sm:text-[25px] xl:text-[30px] barlow-bold">
           Our Bestsellers

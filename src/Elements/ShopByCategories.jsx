@@ -12,7 +12,7 @@ const ShopByCategories = () => {
   const settings = {
     dots: false,
     infinite: false,
-    speed: 500,
+    speed: 300,
     slidesToShow: 3,
     slidesToScroll: 1,
     afterChange: (current) => setCurrentSlide(current),
@@ -76,7 +76,7 @@ const ShopByCategories = () => {
             {categories.map((obj, ind) => (
               <div
                 key={ind}
-                className=" h-[400px] xl:h-[650px]  relative flex justify-center items-center"
+                className=" h-[350px] xl:h-[650px] relative flex justify-center items-center"
               >
                 <div className="bg-black opacity-[50%] w-full h-full hover:opacity-0 transition-all duration-500   absolute"></div>
                 <img src={obj.image} className="w-full h-full" />

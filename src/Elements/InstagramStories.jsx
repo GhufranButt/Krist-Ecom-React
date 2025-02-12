@@ -4,7 +4,6 @@ import { BiDollarCircle } from "react-icons/bi";
 import { GrInstagram } from "react-icons/gr";
 import { FaHeadphones } from "react-icons/fa6";
 import { LuCreditCard } from "react-icons/lu";
-import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import model1Img from "../../assets/model1.jpg";
 import model2Img from "../../assets/model2.jpg";
 import model3Img from "../../assets/model3.jpg";
@@ -13,49 +12,6 @@ import model4Img from "../../assets/model4.jpg";
 const images = [model1Img, model2Img, model4Img, model3Img];
 
 const InstagramStories = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const sliderRef = useRef(null);
-
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    afterChange: (current) => setCurrentSlide(current),
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 375,
-        settings: {
-          slidesToShow: 1,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          initialSlide: 2,
-        },
-      },
-    ],
-  };
-
   return (
     <div className="flex-flex-col py-10 px-5 space-y-10">
       <p className="text-[28px] text-center  barlow-semibold ">
