@@ -3,9 +3,36 @@ import Button from "../../Elements/Button";
 import kristLogo from "../../../assets/kristlog.svg";
 import ArrowLeft from "../../../assets/arrow-left.svg";
 import { useNavigate } from "react-router-dom";
+import PinInput from "react-pin-input";
 
 const VerifyOtp = () => {
+  const [otp, setOtp] = useState("");
+
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setOtp({ ...otp, [name]: value });
+  };
+
+  const validateForm = () => {
+    let errors = {};
+
+    if (otp.length === 0) {
+      errors.otp = "otp is required";
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      // console.log("Form submitted:", formValues);
+    }
+  };
 
   return (
     <div className="flex md:flex-row justify-center items-center h-screen">
@@ -39,39 +66,43 @@ const VerifyOtp = () => {
             </p>
           </div>
 
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex gap-x-8" data-hs-pin-input="">
-              <input
-                type="text"
-                className="block w-[60px] h-[60px] rounded-[10px] text-center border border-black text-md focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                data-hs-pin-input-item=""
-                autoFocus=""
+              <PinInput
+                length={4}
+                initialValue=""
+                secret
+                secretDelay={100}
+                onChange={(otp, index) => {}}
+                type="numeric"
+                inputMode="number"
+                style={{ padding: "10px" }}
+                inputStyle={{ borderColor: "red" }}
+                inputFocusStyle={{ borderColor: "blue" }}
+                onComplete={(value, index) => {}}
+                autoSelect={true}
+                regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
               />
-              <input
-                type="text"
-                className="block w-[60px] h-[60px] rounded-[10px] text-center border text-md focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                data-hs-pin-input-item=""
-              />
-              <input
-                type="text"
-                className="block w-[60px] h-[60px] rounded-[10px] text-center border text-text-md focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                data-hs-pin-input-item=""
-              />
-              <input
-                type="text"
-                className="block w-[60px] h-[60px] rounded-[10px] text-center border text-md focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                data-hs-pin-input-item=""
-              />
-              <input
-                type="text"
-                className="block w-[60px] h-[60px] rounded-[10px] text-center border text-md focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                data-hs-pin-input-item=""
-              />
+              {/* {otp.map(() => {
+                return (
+                  <input
+                    type="text"
+                    className="block w-[60px] h-[60px] rounded-[10px] text-center border border-black text-md focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                    data-hs-pin-input-item=""
+                    autoFocus=""
+                    onChange={handleChange}
+                    value={otp}
+                  />
+                );
+              })}
+              {errors.otp && (
+                <p className="text-red-500 text-sm">{errors.otp}</p>
+              )} */}
+            </div>
+            <div className="w-full">
+              <Button text="Verify OTP" type="submit" className="w-full" />
             </div>
           </form>
-          <div className="w-full">
-            <Button text="Send OTP" className="w-full" />
-          </div>
         </div>
       </div>
     </div>

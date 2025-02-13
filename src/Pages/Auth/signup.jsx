@@ -1,20 +1,78 @@
 import { react, useState } from "react";
 import Button from "../../Elements/Button";
 import kristLogo from "../../../assets/kristlog.svg";
+import { register } from "../../apiCalls/authentication/auth.js";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
-  const values = { firstName: "", lastName: "", email: "", password: "" };
-  const [formValues, setFormValues] = useState(values);
+  const navigate = useNavigate();
+
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
   const [check, setCheck] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
-    console.log(formValues);
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    let errors = {};
+    if (!formValues.email) {
+      errors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formValues.email)) {
+      errors.email = "Invalid email format";
+    }
+
+    if (!formValues.firstName) {
+      errors.firstName = "First name is required";
+    }
+    if (!formValues.lastName) {
+      errors.lastName = "Last name is required";
+    }
+
+    if (!formValues.password) {
+      errors.password = "Password is required";
+    } else if (formValues.password.length < 8) {
+      errors.password = "Password must be at least 8 characters long";
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const isValidation = validateForm();
+
+    if (!isValidation) {
+      return;
+    }
+
+    try {
+      const result = await register(
+        formValues.email,
+        formValues.password,
+        formValues.firstName,
+        formValues.lastName
+      );
+      if (result.status === 400) {
+        toast.error(result.message);
+      } else {
+        navigate("/");
+        toast.success(result.message);
+      }
+    } catch (error) {
+      console.log("EEWLLWKELKWLK", error);
+    }
   };
 
   const handleCheck = () => {
@@ -52,6 +110,9 @@ const Home = () => {
                 value={formValues.firstName}
                 onChange={handleChange}
               />
+              {errors.firstName && (
+                <p className="text-red-500 text-sm">{errors.firstName}</p>
+              )}
             </div>
 
             <div className="flex flex-col gap-1">
@@ -66,6 +127,9 @@ const Home = () => {
                 value={formValues.lastName}
                 onChange={handleChange}
               />
+              {errors.lastName && (
+                <p className="text-red-500 text-sm">{errors.lastName}</p>
+              )}
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium" htmlFor="email">
@@ -79,6 +143,9 @@ const Home = () => {
                 value={formValues.email}
                 onChange={handleChange}
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email}</p>
+              )}
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium" htmlFor="password">
@@ -92,6 +159,9 @@ const Home = () => {
                 value={formValues.password}
                 onChange={handleChange}
               />
+              {errors.password && (
+                <p className="text-red-500 text-sm">{errors.password}</p>
+              )}
             </div>
 
             <div className="flex justify-start gap-2 items-center text-sm">
@@ -115,10 +185,10 @@ const Home = () => {
                 Terms & Conditions
               </p>
             </div>
+            <div className="w-full">
+              <Button text="Login" type="submit" className="w-full" />
+            </div>
           </form>
-          <div className="w-full">
-            <Button text="Login" className="w-full" />
-          </div>
         </div>
       </div>
     </div>

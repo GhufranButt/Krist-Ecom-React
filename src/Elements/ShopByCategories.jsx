@@ -3,11 +3,19 @@ import categories from "../Utils/shopByCatData.js";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useNavigate } from "react-router-dom";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 const ShopByCategories = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [cat, setCat] = useState(null);
   const sliderRef = useRef(null);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/product-categories");
+    setCat(categories.name);
+  };
 
   const settings = {
     dots: false,
@@ -80,7 +88,10 @@ const ShopByCategories = () => {
               >
                 <div className="bg-black opacity-[50%] w-full h-full hover:opacity-0 transition-all duration-500   absolute"></div>
                 <img src={obj.image} className="w-full h-full" />
-                <button className="w-[60%] p-2 rounded-[9px] text-[15px] xl:px-4 xl:py-3 xl:rounded-[15px] xl:text-[20px] button absolute bg-[#FFFFFF] xl:w-[60%]  bottom-10 left-[50%] -translate-x-1/2 text-center text-gray-600 font-semibold">
+                <button
+                  onClick={handleClick}
+                  className="w-[60%] p-2 rounded-[9px] text-[15px] xl:px-4 xl:py-3 xl:rounded-[15px] xl:text-[20px] button absolute bg-[#FFFFFF] xl:w-[60%]  bottom-10 left-[50%] -translate-x-1/2 text-center text-gray-600 font-semibold"
+                >
                   {obj.name}
                 </button>
               </div>

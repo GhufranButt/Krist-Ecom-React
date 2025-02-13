@@ -2,32 +2,72 @@ import { useState } from "react";
 import Button from "../../Elements/Button";
 import kristLogo from "../../../assets/kristlog.svg";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../apiCalls/authentication/auth.js";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
-  const values = { email: "", password: "" };
-  const [formValues, setFormValues] = useState(values);
+  const [formValues, setFormValues] = useState({ email: "", password: "" });
   const [check, setCheck] = useState(false);
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   const handleCheck = () => {
     setCheck(!check);
   };
 
-  const handleChange = () => {
-    const { name, value } = formValues;
-
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleSubmit = () => {
+  const validateForm = () => {
+    let errors = {};
+    if (!formValues.email) {
+      errors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formValues.email)) {
+      errors.email = "Invalid email format";
+    }
+
+    if (!formValues.password) {
+      errors.password = "Password is required";
+    } else if (formValues.password.length < 8) {
+      errors.password = "Password must be at least 8 characters long";
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const isValidation = validateForm();
+
+    if (!isValidation) {
+      return;
+    }
+
+    try {
+      const result = await login(formValues.email, formValues.password);
+      // localStorage.setItem(result.token);
+      // localStorage.setItem(result.user.email);
+      if (result.status === 200) {
+        toast.success(result.message);
+        navigate("/home");
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="flex md:flex-row justify-center items-center h-screen">
-      <div className="bg-[url(/assets/Girl.png)] bg-no-repeat  w-[50%] hidden lg:flex  lg:w-1/2 h-[50vh] lg:h-screen  bg-cover bg-center">
-        <div className="flex  justify-center items-center gap-1 h-[50px] w-[50px] mt-16 ml-[100px]">
-          <img src={kristLogo} className="h-full w-full" />
+      <div className="bg-[url(/assets/Girl.png)] bg-no-repeat w-[50%] hidden lg:flex lg:w-1/2 h-[50vh] lg:h-screen bg-cover bg-center">
+        <div className="flex justify-center items-center gap-1 h-[50px] w-[50px] mt-16 ml-[100px]">
+          <img src={kristLogo} className="h-full w-full" alt="Krist Logo" />
           <p className="text-black text-[50px]">Krist</p>
         </div>
       </div>
@@ -55,6 +95,9 @@ const Home = () => {
                 placeholder="Enter your email"
                 onChange={handleChange}
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email}</p>
+              )}
             </div>
 
             <div className="flex flex-col gap-1">
@@ -69,6 +112,9 @@ const Home = () => {
                 placeholder="Enter your password"
                 onChange={handleChange}
               />
+              {errors.password && (
+                <p className="text-red-500 text-sm">{errors.password}</p>
+              )}
             </div>
 
             <div className="flex justify-between items-center text-sm">
@@ -81,7 +127,6 @@ const Home = () => {
                   onChange={handleCheck}
                 />
                 <label
-                  // onClick={handleCheck}
                   className="cursor-pointer text-gray-700 hover:text-black hover:font-medium transition duration-300"
                   htmlFor="checkbox"
                 >
@@ -95,10 +140,10 @@ const Home = () => {
                 Forgot Password?
               </p>
             </div>
+            <div className="w-full">
+              <Button text="Login" type="submit" className="w-full" />
+            </div>
           </form>
-          <div className="w-full">
-            <Button text="Login" className="w-full" />
-          </div>
         </div>
       </div>
     </div>

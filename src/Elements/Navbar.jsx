@@ -6,19 +6,25 @@ import { useState } from "react";
 import shoppingBag from "../../assets/shoppingBag.png";
 import favourite from "../../assets/favourite.png";
 import searchSvg from "../../assets/search.svg";
+import SideBar from "./SideBar.jsx";
+import { FaBars } from "react-icons/fa6";
 
 import categories from "../Utils/shopByCatData.js";
 
 const Navbar = () => {
+  const [openBar, setopenBar] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleList = () => {  
+  const toggleList = () => {
     setIsOpen((prev) => !prev);
+  };
+  const openSideBar = () => {
+    setopenBar((prev) => !prev);
   };
 
   return (
     <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm  dark:bg-neutral-800">
-      <nav className="max-w-[103rem] w-full relative mx-auto  flex flex-wrap basis-full py-4 items-center justify-between">
+      <nav className="max-w-[103rem] w-full relative mx-auto flex flex-wrap basis-full py-1 lg:py-4 items-center px-8 justify-between">
         <a
           className="sm:order-1 flex justify-center items-center text-xl font-semibold dark:text-white focus:outline-none focus:opacity-80"
           href="#"
@@ -26,7 +32,7 @@ const Navbar = () => {
           <img src={kristLogo} className="h-[25px] xl:h-[40px] xl:w-[40px]" />
           <p className="text-black text-[25px] xl:text-[40px]">Krist</p>
         </a>
-        <div className="sm:order-3 flex justify-between items-center gap-4 xl:gap-x-8">
+        <div className="sm:order-3 flex justify-between items-center gap-2 xl:gap-8">
           <img
             src={searchSvg}
             className="cursor-pointer h-[20px] w-[20px] xl:w-[30px] xl:h-[30px]"
@@ -39,6 +45,39 @@ const Navbar = () => {
             src={shoppingBag}
             className="cursor-pointer h-[20px] w-[20px] xl:w-[30px] xl:h-[30px]"
           />
+          <div className="flex items-center  gap-4 px-2 xl:px-7  lg:hidden">
+            <FaBars
+              onClick={openSideBar}
+              className="cursor-pointer relative "
+            />
+
+            {openBar && (
+              <div className="fixed top-0 right-0 z-[999]">
+                <button
+                  type="button"
+                  onClick={openSideBar}
+                  className="text-gray-400 absolute bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 top-5 end-20 flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                </button>
+                <SideBar />
+              </div>
+            )}
+          </div>
 
           <Button text="Login" baseDisplay="hidden" />
         </div>
@@ -47,7 +86,7 @@ const Navbar = () => {
           className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:grow-0 sm:basis-auto sm:block sm:order-2"
           aria-labelledby="hs-navbar-alignment-collapse"
         >
-          <div className=" hidden lg:flex  flex-col gap-12 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:ps-5">
+          <div className=" hidden lg:flex gap-12 items-center">
             <a
               className="font-medium text-[25px] text-gray-600 focus:outline-none"
               href="#"

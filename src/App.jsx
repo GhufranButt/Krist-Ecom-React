@@ -3,7 +3,9 @@ import Register from "../src/Pages/Auth/signup.jsx";
 import ForgotPassword from "../src/Pages/Auth/forgotPass.jsx";
 import VerifyOtp from "../src/Pages/Auth/verifyOtp.jsx";
 import ConfrimPassword from "../src/Pages/Auth/confirmPass.jsx";
+import ProductCategories from "./Pages/Products/ProductCategories.jsx";
 import Home from "../src/Pages/Home/home.jsx";
+import { ToastContainer } from "react-toastify";
 
 import {
   Route,
@@ -23,14 +25,31 @@ const router = createBrowserRouter(
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/verifyOtp" element={<VerifyOtp />} />
         <Route path="/confirmPassword" element={<ConfrimPassword />} />
-        <Route path="/Home" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/product-categories" element={<ProductCategories />} />
       </Route>
     </>
   )
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+    </>
+  );
 }
 
 export default App;
