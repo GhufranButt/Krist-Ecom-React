@@ -7,20 +7,21 @@ import PinInput from "react-pin-input";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState("");
-
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setOtp({ ...otp, [name]: value });
+  const handleOtpChange = (value) => {
+    setOtp(value);
+    setErrors({});
   };
 
   const validateForm = () => {
     let errors = {};
 
-    if (otp.length === 0) {
-      errors.otp = "otp is required";
+    if (!otp || otp.length < 5) {
+      errors.otp = "OTP is required";
+    } else if (otp !== "12345") {
+      errors.otp = "Invalid OTP";
     }
 
     setErrors(errors);
@@ -30,7 +31,7 @@ const VerifyOtp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // console.log("Form submitted:", formValues);
+      console.log("OTP verified successfully:", otp);
     }
   };
 
@@ -38,7 +39,7 @@ const VerifyOtp = () => {
     <div className="flex md:flex-row justify-center items-center h-screen">
       <div className="bg-[url(/assets/OtpImg.png)] bg-no-repeat  w-[50%] hidden lg:flex  lg:w-1/2 h-[50vh] lg:h-screen  bg-cover bg-center">
         <div className="flex  justify-center items-center gap-1 h-[50px] w-[50px] mt-16 ml-[100px]">
-          <img src={kristLogo} className="h-full w-full" />
+          <img src={kristLogo} className="h-full w-full" alt="Krist Logo" />
           <p className="text-black text-[50px]">Krist</p>
         </div>
       </div>
@@ -52,6 +53,7 @@ const VerifyOtp = () => {
               <img
                 src={ArrowLeft}
                 onClick={() => navigate("/forgotpassword")}
+                alt="Back Arrow"
               />
               <p className="hover:text-black hover:font-bold transition duration-300">
                 Back
@@ -61,45 +63,47 @@ const VerifyOtp = () => {
               Enter OTP
             </h1>
             <p className="text-gray-500 text-sm sm:text-base">
-              We have share a code of your registered email address
+              We have shared a code to your registered email address
               robertfox@example.com
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex gap-x-8" data-hs-pin-input="">
-              <PinInput
-                length={4}
-                initialValue=""
-                secret
-                secretDelay={100}
-                onChange={(otp, index) => {}}
-                type="numeric"
-                inputMode="number"
-                style={{ padding: "10px" }}
-                inputStyle={{ borderColor: "red" }}
-                inputFocusStyle={{ borderColor: "blue" }}
-                onComplete={(value, index) => {}}
-                autoSelect={true}
-                regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
-              />
-              {/* {otp.map(() => {
-                return (
-                  <input
-                    type="text"
-                    className="block w-[60px] h-[60px] rounded-[10px] text-center border border-black text-md focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                    data-hs-pin-input-item=""
-                    autoFocus=""
-                    onChange={handleChange}
-                    value={otp}
-                  />
-                );
-              })}
-              {errors.otp && (
-                <p className="text-red-500 text-sm">{errors.otp}</p>
-              )} */}
-            </div>
-            <div className="w-full">
+            <PinInput
+              length={5}
+              initialValue=""
+              secret
+              secretDelay={100}
+              onChange={handleOtpChange}
+              type="numeric"
+              inputMode="number"
+              style={{ padding: "10px" }}
+              inputStyle={{
+                width: "70px",
+                height: "70px",
+                borderRadius: "10px",
+                border: errors.otp ? "1px solid red" : "1px solid black",
+                textAlign: "center",
+                fontSize: "1rem",
+                marginRight: "10px",
+                gap: "10px",
+                flex: "1 1 auto",
+              }}
+              inputFocusStyle={{
+                borderColor: errors.otp ? "red" : "blue",
+                boxShadow: errors.otp
+                  ? "0 0 0 3px rgba(255, 0, 0, 0.5)"
+                  : "0 0 0 3px rgba(59, 130, 246, 0.5)",
+              }}
+              onComplete={(value) => setOtp(value)}
+              autoSelect={true}
+              regexCriteria={/^[0-9]*$/}
+            />
+
+            {errors.otp && (
+              <p className="text-red-500 text-sm mt-2">{errors.otp}</p>
+            )}
+            <div className="w-[450px]">
               <Button text="Verify OTP" type="submit" className="w-full" />
             </div>
           </form>
