@@ -1,27 +1,40 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../../Elements/Navbar.jsx";
 import Footer from "../../Elements/Footer.jsx";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuPlus } from "react-icons/lu";
+import { allProducts } from "../../apiCalls/products/products.js";
+import filterProduct from "../../Utils/filterProduct.js";
+import { addCart } from "../../apiCalls/cart/cart.js";
+import { FiEye } from "react-icons/fi";
+import { CiStar } from "react-icons/ci";
+import { HiMiniArrowsRightLeft } from "react-icons/hi2";
+const { colorCategories, sizeCategories, productCategories } = filterProduct;
 
 const ProductCategories = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPriceOpen, setIsPriceOpen] = useState(false);
+  const [isSizeopen, setISizeopen] = useState(false);
   const [checkedItems, setCheckedItems] = useState({});
-
-  const productCategories = [
-    { id: "menCheckBox", label: "Men" },
-    { id: "womenCheckBox", label: "Women" },
-    { id: "kidsCheckBox", label: "Kids" },
-    { id: "bagsCheckBox", label: "Bags" },
-    { id: "beltsCheckBox", label: "Belts" },
-    { id: "walletsCheckBox", label: "Wallets" },
-    { id: "watchesCheckBox", label: "Watches" },
-    { id: "accessoriesCheckBox", label: "Accessories" },
-  ];
+  const [isColorOpen, setIsColorOpen] = useState(false);
+  const [productData, setproductData] = useState([]);
+  const [checkedSizeItems, setCheckedSizeItems] = useState({});
 
   const handleCheck = (id) => {
     setCheckedItems((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
+  const addToCart = (obj) => {
+    addCart(obj);
+  };
+  console.log("product on cart", productData);
+
+  const handlePriceCheck = (id) => {
+    setCheckedSizeItems((prev) => ({
       ...prev,
       [id]: !prev[id],
     }));
@@ -31,42 +44,140 @@ const ProductCategories = () => {
     setIsOpen((prev) => !prev);
   };
 
+  const togglePrice = () => {
+    setIsPriceOpen((prev) => !prev);
+  };
+  const toggleSize = () => {
+    setISizeopen((prev) => !prev);
+  };
+  const toggleColor = () => {
+    setIsColorOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    const xyz = async () => {
+      try {
+        const productArr = await allProducts();
+        setproductData(productArr.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    xyz();
+  }, []);
+
+  console.log("all product", productData);
+
   return (
     <div>
       <Navbar />
-      <div className="flex items-center gap-2">
-        <div className="flex flex-col gap-3 items-center">
-          <div className="flex items-center text-gray-500 text-[12px] barlow-regular">
-            <p>Shop</p>
-            <MdKeyboardArrowRight />
-            <p>All Products</p>
-          </div>
-          <div>
-            <div className="flex flex-col">
-              <div className="flex items-center cursor-pointer w-[200px] justify-between">
-                <p>Product Categories</p>
-                <IoIosArrowDown
-                  onClick={toggleList}
-                  className={`w-4 h-4 transition-transform ${
-                    isOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </div>
 
-              {isOpen && (
-                <>
-                  {productCategories.map((category) => (
-                    <div
-                      key={category.id}
-                      className="flex gap-2 items-center w-[200px] justify-between"
-                    >
-                      <div className="flex items-center gap-2">
+      <div className="flex mt-10 px-3">
+        <div className="flex flex-col items-start gap-5">
+          <div className="flex flex-col gap-3 items-center">
+            <div className="flex items-center text-gray-500 text-[12px] barlow-regular">
+              <p>Shop</p>
+              <MdKeyboardArrowRight />
+              <p>All Products</p>
+            </div>
+            <div>
+              <div className="flex flex-col">
+                <div className="flex items-center cursor-pointer w-[200px] justify-between">
+                  <p>Product Categories</p>
+                  <IoIosArrowDown
+                    onClick={toggleList}
+                    className={`w-4 h-4 transition-transform ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+
+                {isOpen && (
+                  <>
+                    {productCategories.map((category) => (
+                      <div
+                        key={category.id}
+                        className="flex gap-2 items-center w-[200px] justify-between"
+                      >
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            id={category.id}
+                            className="accent-black cursor-pointer"
+                            checked={checkedItems[category.id] || false}
+                            onChange={() => handleCheck(category.id)}
+                          />
+                          <label
+                            className="cursor-pointer text-gray-700 hover:text-black hover:font-medium transition duration-300"
+                            htmlFor={category.id}
+                          >
+                            {category.label}
+                          </label>
+                        </div>
+
+                        <LuPlus aria-label="Add" />
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3 items-center">
+            <div className="flex items-center cursor-pointer w-[200px] justify-between">
+              <p>Filter by Price</p>
+              <IoIosArrowDown
+                onClick={togglePrice}
+                className={`w-4 h-4 transition-transform ${
+                  isPriceOpen ? "rotate-180" : ""
+                }`}
+              />
+            </div>
+
+            {isPriceOpen && (
+              <>
+                <label
+                  for="small-range"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Price: $0-$2000
+                </label>
+                <input
+                  id="small-range"
+                  type="range"
+                  value="50"
+                  class="w-full h-1 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm dark:bg-gray-700"
+                />
+              </>
+            )}
+          </div>
+          <div className="flex flex-col">
+            <div className="flex items-center cursor-pointer w-[200px] justify-between">
+              <p>Filter By Size</p>
+              <IoIosArrowDown
+                onClick={toggleSize}
+                className={`w-4 h-4 transition-transform ${
+                  isSizeopen ? "rotate-180" : ""
+                }`}
+              />
+            </div>
+
+            {isSizeopen && (
+              <>
+                {sizeCategories.map((category) => (
+                  <div
+                    key={category.id}
+                    className="flex gap-2 items-center w-[200px] justify-between"
+                  >
+                    <div className="flex items-center justify-between w-full gap-2">
+                      <div className="flex gap-3">
                         <input
                           type="checkbox"
                           id={category.id}
                           className="accent-black cursor-pointer"
-                          checked={checkedItems[category.id] || false}
-                          onChange={() => handleCheck(category.id)}
+                          checked={checkedSizeItems[category.id] || false}
+                          onChange={() => handlePriceCheck(category.id)}
                         />
                         <label
                           className="cursor-pointer text-gray-700 hover:text-black hover:font-medium transition duration-300"
@@ -76,18 +187,108 @@ const ProductCategories = () => {
                         </label>
                       </div>
 
-                      <LuPlus aria-label="Add" />
+                      <label
+                        className="cursor-pointer text-gray-700 hover:text-black hover:font-medium transition duration-300"
+                        htmlFor={category.id}
+                      >
+                        ({category.qualtity})
+                      </label>
                     </div>
-                  ))}
-                </>
-              )}
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+          <div className="flex flex-col">
+            <div className="flex items-center cursor-pointer w-[200px] justify-between">
+              <p>Filter By Color</p>
+              <IoIosArrowDown
+                onClick={toggleColor}
+                className={`w-4 h-4 transition-transform ${
+                  isColorOpen ? "rotate-180" : ""
+                }`}
+              />
             </div>
+
+            {isColorOpen && (
+              <>
+                {colorCategories.map((category) => (
+                  <div
+                    key={category.id}
+                    className="flex gap-2 items-center w-[200px] justify-between"
+                  >
+                    <div className="flex items-center justify-between w-full gap-2">
+                      <div className="flex gap-3">
+                        <input
+                          type="checkbox"
+                          id={category.id}
+                          className="accent-black cursor-pointer"
+                          checked={checkedSizeItems[category.id] || false}
+                          onChange={() => handlePriceCheck(category.id)}
+                        />
+                        <label
+                          className="cursor-pointer text-gray-700 hover:text-black hover:font-medium transition duration-300"
+                          htmlFor={category.id}
+                        >
+                          {category.label}
+                        </label>
+                      </div>
+
+                      <label
+                        className="cursor-pointer text-gray-700 hover:text-black hover:font-medium transition duration-300"
+                        htmlFor={category.id}
+                      >
+                        ({category.qualtity})
+                      </label>
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </div>
 
-        <div></div>
-        <div></div>
-        <div></div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center items-center">
+          {productData.map((obj) => (
+            <div
+              className="flex flex-col px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 2xl:px-12 relative group"
+              key={obj.id}
+            >
+              <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer shadow-lg w-full max-w-[300px] p-4 flex items-center justify-center relative">
+                <img
+                  src={obj.images[0]}
+                  className="h-[350px] w-[280px] object-cover rounded-lg"
+                  alt="Product"
+                />
+                <div className="flex absolute right-5 top-10 flex-col gap-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
+                  <div className="bg-white rounded-full button p-1 shadow-md">
+                    <CiStar size={20} />
+                  </div>
+                  <div className="bg-white rounded-full button p-1 shadow-md">
+                    <HiMiniArrowsRightLeft size={20} />
+                  </div>
+                  <div className="bg-white rounded-full button p-1 shadow-md">
+                    <FiEye size={20} />
+                  </div>
+                </div>
+                <button
+                  onClick={() => addToCart(obj)}
+                  className="absolute bottom-5 left-[50%] -translate-x-1/2 w-[60%] p-2 rounded-[9px] button text-[13px] bg-white text-gray-600 font-medium opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300 shadow-md"
+                >
+                  Add to Cart
+                </button>
+              </div>
+              <p className="text-[15px] sm:text-[16px] md:text-[17px] lg:text-[18px] xl:text-[19px] 2xl:text-[20px] barlow-medium mt-2">
+                {obj.name}
+              </p>
+              <div className="flex gap-2 mt-1">
+                <p className="text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] xl:text-[18px] 2xl:text-[19px]">
+                  {obj.price}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
       <Footer />
     </div>

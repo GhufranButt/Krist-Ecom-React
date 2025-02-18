@@ -50,8 +50,12 @@ const Home = () => {
 
     try {
       const result = await login(formValues.email, formValues.password);
-      // localStorage.setItem(result.token);
-      // localStorage.setItem(result.user.email);
+      console.log("data during login", result);
+      localStorage.setItem("token", result.token);
+      localStorage.setItem("email", result.user.email);
+      localStorage.setItem("FirstName", result.user.firstName);
+      localStorage.setItem("LastName", result.user.lastName);
+      localStorage.setItem("user_id", result.user.id);
       if (result.status === 200) {
         toast.success(result.message);
         navigate("/home");
