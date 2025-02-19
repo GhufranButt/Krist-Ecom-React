@@ -19,12 +19,12 @@ const sizeCategories = [
 ];
 
 const colorCategories = [
-  { id: "red", label: "Red", qualtity: "18" },
-  { id: "blue", label: "Blue", qualtity: "18" },
-  { id: "orange", label: "Orange", qualtity: "18" },
-  { id: "black", label: "Black", qualtity: "18" },
-  { id: "green", label: "Green", qualtity: "18" },
-  { id: "yellow", label: "Yellow", qualtity: "18" },
+  { id: "red", label: "Red", qualtity: "18", color: "#FF0000" },
+  { id: "blue", label: "Blue", qualtity: "18", color: "#0000FF" },
+  { id: "orange", label: "Orange", qualtity: "18", color: "#FFA500" },
+  { id: "black", label: "Black", qualtity: "18", color: "#000000" },
+  { id: "green", label: "Green", qualtity: "18", color: "#008000" },
+  { id: "yellow", label: "Yellow", qualtity: "18", color: "#FFFF00" },
 ];
 
 export default { colorCategories, sizeCategories, productCategories };

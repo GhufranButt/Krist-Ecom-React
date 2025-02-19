@@ -7,10 +7,17 @@ import { FiEye } from "react-icons/fi";
 import { CiStar } from "react-icons/ci";
 import { HiMiniArrowsRightLeft } from "react-icons/hi2";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const BestSellers = () => {
+  const navigate = useNavigate();
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderRef = useRef(null);
+
+  const handleProductDetail = () => {
+    navigate("/product-details");
+  };
 
   const settings = {
     dots: false,
@@ -83,7 +90,10 @@ const BestSellers = () => {
         </div>
       </div>
 
-      <div className="hidden lg:grid grid-cols-4 lg:px-10 gap-10 justify-center items-center">
+      <div
+        onClick={handleProductDetail}
+        className="hidden lg:grid grid-cols-4 lg:px-10 gap-10 justify-center items-center"
+      >
         {bestProduct.map((obj) => (
           <div className="flex flex-col gap-2 relative group" key={obj.id}>
             <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  shadow-lg lg:h-[300px] xl:h-[350px] xl:w-[280px] p-4 flex items-center justify-center relative">
@@ -99,7 +109,10 @@ const BestSellers = () => {
                 <div className="bg-white rounded-full button p-1 shadow-md">
                   <HiMiniArrowsRightLeft size={20} />
                 </div>
-                <div className="bg-white rounded-full button p-1 shadow-md">
+                <div
+                  onClick={handleProductDetail}
+                  className="bg-white rounded-full button p-1 shadow-md"
+                >
                   <FiEye size={20} />
                 </div>
               </div>

@@ -10,3 +10,14 @@ export const allProducts = async () => {
     return error;
   }
 };
+
+export const productByID = async (id) => {
+  try {
+    const res = await apiCall(`/product/product-details/${id}`, "GET");
+    console.log("res of all products", res);
+    return res;
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    return error;
+  }
+};

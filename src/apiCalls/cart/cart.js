@@ -1,7 +1,6 @@
 import apiCall from "../../hooks/apicalls/apicall.js";
 
 export const addCart = async (obj) => {
-  console.log("object", obj);
   const { quantity, name, images, price } = obj;
 
   const body = {

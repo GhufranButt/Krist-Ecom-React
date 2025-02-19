@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import kristLogo from "../../assets/kristlog.svg";
 import Button from "./Button.jsx";
 import upArrow from "../../assets/arrow-up.svg";
-import { useState } from "react";
 import shoppingBag from "../../assets/shoppingBag.png";
 import favourite from "../../assets/favourite.png";
 import searchSvg from "../../assets/search.svg";
 import SideBar from "./SideBar.jsx";
 import { FaBars } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 import categories from "../Utils/shopByCatData.js";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [openBar, setopenBar] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    setIsAuthenticated(!!localStorage.getItem("token"));
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+  };
 
   const toggleList = () => {
     setIsOpen((prev) => !prev);
@@ -22,10 +33,18 @@ const Navbar = () => {
     setopenBar((prev) => !prev);
   };
 
+  const handleNavigate = () => {
+    navigate("/home");
+  };
+  const handleLoginClick = () => {
+    navigate("/");
+  };
+
   return (
     <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm  dark:bg-neutral-800">
       <nav className="max-w-[103rem] w-full relative mx-auto flex flex-wrap basis-full py-1 lg:py-4 items-center px-8 justify-between">
         <a
+          onClick={handleNavigate}
           className="sm:order-1 flex justify-center items-center text-xl font-semibold dark:text-white focus:outline-none focus:opacity-80"
           href="#"
         >
@@ -79,7 +98,15 @@ const Navbar = () => {
             )}
           </div>
 
-          <Button text="Login" baseDisplay="hidden" />
+          {isAuthenticated ? (
+            <Button onClick={handleLogout} text="Logout" baseDisplay="hidden" />
+          ) : (
+            <Button
+              onClick={handleLoginClick}
+              text="Login"
+              baseDisplay="hidden"
+            />
+          )}
         </div>
         <div
           id="hs-navbar-alignment"
@@ -88,6 +115,7 @@ const Navbar = () => {
         >
           <div className=" hidden lg:flex gap-12 items-center">
             <a
+              onClick={handleNavigate}
               className="font-medium text-[25px] text-gray-600 focus:outline-none"
               href="#"
               aria-current="page"
@@ -112,7 +140,7 @@ const Navbar = () => {
                 }`}
               />
               {isOpen && (
-                <div className="bg-[#FFFFFF] flex flex-col lg:flex-row items-start text-white shadow-xl ring-2 ring-slate-100 absolute top-20 left-32 px-5 py-6">
+                <div className="bg-[#FFFFFF] z-[999] flex flex-col lg:flex-row items-start text-white shadow-xl ring-2 ring-slate-100 absolute top-20 left-32 px-5 py-6">
                   {categories.map((category, index) => (
                     <div
                       key={index}

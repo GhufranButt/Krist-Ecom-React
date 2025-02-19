@@ -11,8 +11,15 @@ import masterCardImg from "../../assets/masterCard.png";
 import payPalCardImg from "../../assets/papPal.png";
 import westernUnionCardImg from "../../assets/westernUnion.png";
 import googleCardImg from "../../assets/google.png";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate("/");
+  };
+
   return (
     <div className="flex flex-col bg-black text-gray-300 w-full">
       <div className="flex justify-between flex-col md:flex-row gap-4 py-14 px-10">
@@ -49,7 +56,12 @@ const Footer = () => {
           <div className="flex flex-col gap-2 w-full sm:w-1/2">
             <h2 className="font-bold text-white text-[24px]">Information</h2>
             <p className="text-[15px] xl:text-[20px]">My Account</p>
-            <p className="text-[15px] xl:text-[20px]">Login</p>
+            <p
+              onClick={handleNavigate}
+              className="text-[15px] xl:text-[20px] cursor-pointer "
+            >
+              Login
+            </p>
             <p className="text-[15px] xl:text-[20px]">My Cart</p>
             <p className="text-[15px] xl:text-[20px]">My Wishlist</p>
             <p className="text-[15px] xl:text-[20px]">Checkout</p>

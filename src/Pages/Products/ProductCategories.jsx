@@ -1,25 +1,41 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../Elements/Navbar.jsx";
 import Footer from "../../Elements/Footer.jsx";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuPlus } from "react-icons/lu";
-import { allProducts } from "../../apiCalls/products/products.js";
-import filterProduct from "../../Utils/filterProduct.js";
-import { addCart } from "../../apiCalls/cart/cart.js";
 import { FiEye } from "react-icons/fi";
 import { CiStar } from "react-icons/ci";
 import { HiMiniArrowsRightLeft } from "react-icons/hi2";
+import { allProducts } from "../../apiCalls/products/products.js";
+import { IoFilterSharp } from "react-icons/io5";
+import { addCart } from "../../apiCalls/cart/cart.js";
+import KirstBenefits from "../../Elements/KirstBenefits.jsx";
+import FilterBar from "../../Elements/FilterBar.jsx";
+import filterProduct from "../../Utils/filterProduct.js";
 const { colorCategories, sizeCategories, productCategories } = filterProduct;
+import { useNavigate } from "react-router-dom";
+import { addWishList } from "../../apiCalls/wishlist/wishList.js";
 
 const ProductCategories = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPriceOpen, setIsPriceOpen] = useState(false);
   const [isSizeopen, setISizeopen] = useState(false);
+  const [isFilterOpen, setIsFilterOpne] = useState(false);
   const [checkedItems, setCheckedItems] = useState({});
   const [isColorOpen, setIsColorOpen] = useState(false);
   const [productData, setproductData] = useState([]);
   const [checkedSizeItems, setCheckedSizeItems] = useState({});
+
+  const navigate = useNavigate();
+
+  const handleProductDetail = (id) => {
+    navigate(`/product-details/${id}`);
+  };
+
+  const openFilterBar = () => {
+    setIsFilterOpne((prev) => !prev);
+  };
 
   const handleCheck = (id) => {
     setCheckedItems((prev) => ({
@@ -28,10 +44,14 @@ const ProductCategories = () => {
     }));
   };
 
+  const addtowishList = (id) => {
+    addWishList(id);
+  };
+
   const addToCart = (obj) => {
     addCart(obj);
   };
-  console.log("product on cart", productData);
+  // console.log("product on cart", productData);
 
   const handlePriceCheck = (id) => {
     setCheckedSizeItems((prev) => ({
@@ -72,8 +92,8 @@ const ProductCategories = () => {
     <div>
       <Navbar />
 
-      <div className="flex mt-10 px-3">
-        <div className="flex flex-col items-start gap-5">
+      <div className="flex flex-col lg:flex-row gap-4 mt-8 px-3">
+        <div className="hidden lg:flex flex-col items-start gap-5">
           <div className="flex flex-col gap-3 items-center">
             <div className="flex items-center text-gray-500 text-[12px] barlow-regular">
               <p>Shop</p>
@@ -194,6 +214,7 @@ const ProductCategories = () => {
                         ({category.qualtity})
                       </label>
                     </div>
+                    s
                   </div>
                 ))}
               </>
@@ -218,13 +239,11 @@ const ProductCategories = () => {
                     className="flex gap-2 items-center w-[200px] justify-between"
                   >
                     <div className="flex items-center justify-between w-full gap-2">
-                      <div className="flex gap-3">
-                        <input
-                          type="checkbox"
-                          id={category.id}
-                          className="accent-black cursor-pointer"
-                          checked={checkedSizeItems[category.id] || false}
-                          onChange={() => handlePriceCheck(category.id)}
+                      <div className="flex gap-3 items-center">
+                        <div
+                          style={{ backgroundColor: category.color }}
+                          className="w-4 h-4 rounded-[4px] border border-gray-300 cursor-pointer"
+                          onClick={() => handlePriceCheck(category.id)}
                         />
                         <label
                           className="cursor-pointer text-gray-700 hover:text-black hover:font-medium transition duration-300"
@@ -248,7 +267,40 @@ const ProductCategories = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center items-center">
+        <div className="px-4 lg:hidden">
+          <IoFilterSharp
+            onClick={openFilterBar}
+            className="cursor-pointer relative "
+          />
+
+          {isFilterOpen && (
+            <div className="flex flex-col  fixed z-[9999999] top-0 right-0 bg-gray-100">
+              <button
+                type="button"
+                onClick={openFilterBar}
+                className="text-gray-400  bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 top-5 end-20 flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
+              >
+                <svg
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+              </button>
+              <FilterBar />
+            </div>
+          )}
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center items-center">
           {productData.map((obj) => (
             <div
               className="flex flex-col px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 2xl:px-12 relative group"
@@ -256,18 +308,24 @@ const ProductCategories = () => {
             >
               <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer shadow-lg w-full max-w-[300px] p-4 flex items-center justify-center relative">
                 <img
-                  src={obj.images[0]}
-                  className="h-[350px] w-[280px] object-cover rounded-lg"
+                  src={obj.images}
+                  className="h-[200px]  md:h-[250px] w-[280px] object-cover rounded-lg"
                   alt="Product"
                 />
                 <div className="flex absolute right-5 top-10 flex-col gap-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
-                  <div className="bg-white rounded-full button p-1 shadow-md">
+                  <div
+                    onClick={() => addtowishList(obj._id)}
+                    className="bg-white rounded-full button p-1 shadow-md"
+                  >
                     <CiStar size={20} />
                   </div>
                   <div className="bg-white rounded-full button p-1 shadow-md">
                     <HiMiniArrowsRightLeft size={20} />
                   </div>
-                  <div className="bg-white rounded-full button p-1 shadow-md">
+                  <div
+                    onClick={() => handleProductDetail(obj._id)}
+                    className="bg-white rounded-full button p-1 shadow-md"
+                  >
                     <FiEye size={20} />
                   </div>
                 </div>
@@ -290,6 +348,7 @@ const ProductCategories = () => {
           ))}
         </div>
       </div>
+      <KirstBenefits />
       <Footer />
     </div>
   );

@@ -8,13 +8,11 @@ import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 const ShopByCategories = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [cat, setCat] = useState(null);
   const sliderRef = useRef(null);
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate("/product-categories");
-    setCat(categories.name);
   };
 
   const settings = {

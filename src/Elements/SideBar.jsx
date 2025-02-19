@@ -10,7 +10,7 @@ const SideBa = () => {
     setIsOpen((prev) => !prev);
   };
   return (
-    <div className=" h-screen w-[315px] shadow-xl bg-gray-100">
+    <div className="h-screen w-[315px] shadow-xl bg-gray-100">
       <div className="flex flex-col gap-5 xl:gap-12 items-start  p-7">
         <a
           className="font-medium text-[18px] xl:text-[25px] text-gray-600 focus:outline-none"

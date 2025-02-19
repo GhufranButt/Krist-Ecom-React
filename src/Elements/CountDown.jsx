@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import countDownImg from "../../assets/countDown.jpg";
 import countDown2Img from "../../assets/countDown2Img.jpg";
+import { useNavigate } from "react-router-dom";
 
 const CountDown = () => {
+  const navigate = useNavigate();
+
   const duration = 125 * 24 * 60 * 60 * 1000;
   const [time, setTime] = useState(duration);
 
@@ -12,6 +15,10 @@ const CountDown = () => {
       setTime(time - 1000);
     }, 1000);
   }, [time]);
+
+  const handleNavigate = () => {
+    navigate("/product-categories");
+  };
 
   const timer = (millisec) => {
     const total_seconds = parseInt(Math.floor(millisec / 1000));
@@ -69,7 +76,10 @@ const CountDown = () => {
             </div>
           </div>
 
-          <button className="flex items-center justify-center text-[15px] rounded-[14px] barlow-medium button w-[170px] py-3 text-white bg-black gap-2 mx-auto lg:mx-0 ">
+          <button
+            onClick={handleNavigate}
+            className="flex items-center justify-center text-[15px] rounded-[14px] barlow-medium button w-[170px] py-3 text-white bg-black gap-2 mx-auto lg:mx-0 "
+          >
             <p>View All Products</p>
             <FaArrowRightLong color="white" />
           </button>

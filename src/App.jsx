@@ -4,6 +4,8 @@ import ForgotPassword from "../src/Pages/Auth/forgotPass.jsx";
 import VerifyOtp from "../src/Pages/Auth/verifyOtp.jsx";
 import ConfrimPassword from "../src/Pages/Auth/confirmPass.jsx";
 import ProductCategories from "./Pages/Products/ProductCategories.jsx";
+import ProductDetail from "./Pages/Products/ProductDetail.jsx";
+import AddProduct from "./addProduct.jsx";
 import Home from "../src/Pages/Home/home.jsx";
 import { ToastContainer } from "react-toastify";
 
@@ -27,6 +29,8 @@ const router = createBrowserRouter(
         <Route path="/confirmPassword" element={<ConfrimPassword />} />
         <Route path="/home" element={<Home />} />
         <Route path="/product-categories" element={<ProductCategories />} />
+        <Route path="/product-details/:id" element={<ProductDetail />} />
+        <Route path="/addProduct" element={<AddProduct />} />
       </Route>
     </>
   )
