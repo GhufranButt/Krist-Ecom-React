@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @tailwind utilities;
-@import "flowbite/src/themes/default";
+@import "flowbite";
 @layer components {
   .button {
     @apply duration-300 ease-in-out transform hover:scale-110 cursor-pointer;
