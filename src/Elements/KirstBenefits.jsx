@@ -6,7 +6,7 @@ import { LuCreditCard } from "react-icons/lu";
 
 const KirstBenefits = () => {
   return (
-    <div className="flex flex-col md:flex-row w-full px-4 py-10 justify-center gap-[40px] xl:gap-[150px]">
+    <div className="flex flex-col md:flex-row w-full  py-10 justify-center gap-[40px] xl:gap-[200px]">
       <div className="flex flex-col gap-2 barlow-regular w-[200px] ">
         <LiaShippingFastSolid size={35} />
         <div>

@@ -51,7 +51,7 @@ const ProductCategories = () => {
   const addToCart = (obj) => {
     addCart(obj);
   };
-  // console.log("product on cart", productData);
+  console.log("product on cart", productData);
 
   const handlePriceCheck = (id) => {
     setCheckedSizeItems((prev) => ({
@@ -214,7 +214,6 @@ const ProductCategories = () => {
                         ({category.qualtity})
                       </label>
                     </div>
-                    s
                   </div>
                 ))}
               </>
@@ -306,10 +305,10 @@ const ProductCategories = () => {
               className="flex flex-col px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 2xl:px-12 relative group"
               key={obj.id}
             >
-              <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer shadow-lg w-full max-w-[300px] p-4 flex items-center justify-center relative">
+              <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  shadow-lg lg:h-[300px] xl:h-[350px] xl:w-[280px] p-4 flex items-center justify-center relative">
                 <img
                   src={obj.images}
-                  className="h-[200px]  md:h-[250px] w-[280px] object-cover rounded-lg"
+                  className="w-full h-auto max-h-full object-cover rounded-lg"
                   alt="Product"
                 />
                 <div className="flex absolute right-5 top-10 flex-col gap-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
@@ -336,12 +335,12 @@ const ProductCategories = () => {
                   Add to Cart
                 </button>
               </div>
-              <p className="text-[15px] sm:text-[16px] md:text-[17px] lg:text-[18px] xl:text-[19px] 2xl:text-[20px] barlow-medium mt-2">
-                {obj.name}
-              </p>
-              <div className="flex gap-2 mt-1">
-                <p className="text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] xl:text-[18px] 2xl:text-[19px]">
-                  {obj.price}
+              <p className="text-[20px] barlow-bold mt-2">{obj.brandName}</p>
+              <p className="text-[15px] barlow-medium">{obj.productName}</p>
+              <div className="flex gap-2">
+                <p>${obj.price}</p>
+                <p className="text-gray-400 line-through decoration-gray-400">
+                  ${obj.discountedPrice}
                 </p>
               </div>
             </div>

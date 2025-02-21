@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-// import { db } from "./firebase"
-// import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
+import { v4 } from "uuid";
+import { storage } from "./firebase/firebase.js";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { addProduct } from "./apiCalls/products/products.js";
 
 const AddProduct = () => {
   const [product, setProduct] = useState({
@@ -15,26 +18,50 @@ const AddProduct = () => {
     images: [],
   });
 
+  // const [img, setImg] = useState(null);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length > 4) {
-      alert("You can only upload up to 4 images.");
-      return;
+  console.log("product data", product);
+
+  const handleImageChange = async (e) => {
+    const imageUrl = e.target.files[0];
+
+    if (imageUrl) {
+      const uniqueFileName = `${imageUrl.name}-${v4()}`;
+      const imageRef = ref(storage, `kristImagesUrl/${uniqueFileName}`);
+      console.log("imageRef", imageRef);
+
+      try {
+        const snapshot = await uploadBytes(imageRef, imageUrl);
+        console.log("snapshot", snapshot);
+
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        console.log("Image URL:", downloadURL);
+
+        if (downloadURL) {
+          setProduct((prevProduct) => ({
+            ...prevProduct,
+            images: [...(prevProduct.images || []), downloadURL],
+          }));
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      } finally {
+      }
+    } else {
+      alert("Please select an image");
     }
-    const imageUrls = files.map((file) => URL.createObjectURL(file));
-    setProduct({ ...product, images: imageUrls });
   };
 
   const handleSubmit = async (e) => {
+    // console.log("------------------------->", product);
     e.preventDefault();
     try {
-      const docRef = await addDoc(collection(db, "products"), product);
-      console.log("Product added with ID: ", docRef.id);
+      const docRef = await addProduct(product);
       alert("Product added successfully!");
       setProduct({
         brandName: "",
@@ -150,7 +177,7 @@ const AddProduct = () => {
             name="images"
             multiple
             accept="image/*"
-            onChange={handleImageChange}
+            onChange={(e) => handleImageChange(e)}
             required
             className="input-field"
           />
