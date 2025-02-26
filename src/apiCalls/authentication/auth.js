@@ -42,6 +42,7 @@ export const verifyOtp = async (otp) => {
     const body = { otp };
 
     const res = await apiCall("/user/verify-otp", "POST", body);
+    console.log("resggsgsg", res);
     return res;
   } catch (error) {
     console.error("Error fetching reviews:", error);
@@ -49,14 +50,14 @@ export const verifyOtp = async (otp) => {
   }
 };
 
-export const confirmPassword = async (password, confirmPassword) => {
+export const confirmPassword = async (password, confirmPassword, userId) => {
   try {
-    const body = { password, confirmPassword };
+    const body = { password, confirmPassword, id: userId };
 
     const res = await apiCall("/user/confirm-password", "POST", body);
     return res;
   } catch (error) {
-    console.error("Error fetching reviews:", error);
-    return error;
+    console.error("Error confirming password:", error);
+    return { status: error.response?.status || 500, message: error.message };
   }
 };

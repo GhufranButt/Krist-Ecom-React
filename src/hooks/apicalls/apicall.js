@@ -3,12 +3,14 @@ const BASE_URL = "https://ecommerce-be-one.vercel.app";
 
 // https://4f76-182-185-135-35.ngrok-free.app
 const apiCall = async (url, method, body = null) => {
-  const token = localStorage.getItem("token");
+  const userData = localStorage.getItem("userData");
+  const user = JSON.parse(userData);
+  const token = user?.token;
   const options = {
     method,
     headers: {
       "Content-Type": "application/json",
-      auth: token,
+      auth: token ? token : "",
     },
     body: body ? JSON.stringify(body) : null,
   };

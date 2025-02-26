@@ -8,6 +8,9 @@ import ProductDetail from "./Pages/Products/ProductDetail.jsx";
 import AddProduct from "./addProduct.jsx";
 import Home from "../src/Pages/Home/home.jsx";
 import Cart from "../src/Pages/Cart/Cart.jsx";
+import PublicRoutes from "../src/Routing/PublicRoutes.jsx";
+import PrivateRoutes from "../src/Routing/PrivateRoutes.jsx";
+import ProceedTocheckOut from "../src/Pages/Checkout/ProceedTocheckOut.jsx";
 import { ToastContainer } from "react-toastify";
 
 import {
@@ -22,18 +25,23 @@ import {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route>
-        <Route path="/" element={<Login />} />
+      <Route element={<PublicRoutes />}>
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/verifyOtp" element={<VerifyOtp />} />
         <Route path="/confirmPassword" element={<ConfrimPassword />} />
-        <Route path="/home" element={<Home />} />
         <Route path="/product-categories" element={<ProductCategories />} />
         <Route path="/product-details/:id" element={<ProductDetail />} />
         <Route path="/addProduct" element={<AddProduct />} />
         <Route path="/Cart" element={<Cart />} />
+        <Route path="/check-out" element={<ProceedTocheckOut />} />
       </Route>
+
+      <Route element={<PrivateRoutes />}></Route>
+
+      <Route path="/" element={<Navigate to="/home" />} />
     </>
   )
 );

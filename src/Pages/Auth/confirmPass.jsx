@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 const ConfirmPassword = () => {
   const [passShow, setPassShow] = useState(false);
   const [confirmPassShow, setConfirmPassShow] = useState(false);
+  const [isloading, setIsloading] = useState(false);
   const [formValues, setFormValues] = useState({
     password: "",
     confirmpassword: "",
@@ -21,6 +22,8 @@ const ConfirmPassword = () => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
+
+  const userID = localStorage.getItem("user_id");
 
   const passwordShow = () => {
     setPassShow(!passShow);
@@ -56,15 +59,23 @@ const ConfirmPassword = () => {
       return;
     }
 
-    const result = await confirmPassword(
-      formValues.password,
-      formValues.confirmpassword
-    );
+    try {
+      setIsloading(true);
+      const result = await confirmPassword(
+        formValues.password,
+        formValues.confirmpassword,
+        userID
+      );
 
-    if (result.status === 200) {
-      toast.success(result.message);
-    } else {
-      toast.error(result.message);
+      if (result.status === 200) {
+        setIsloading(false);
+        toast.success(result.message);
+      } else {
+        setIsloading(false);
+        toast.error(result.message || "An error occurred");
+      }
+    } catch (error) {
+      toast.error(error.message || "An error occurred");
     }
   };
 
@@ -165,7 +176,7 @@ const ConfirmPassword = () => {
               <Button
                 text="Confirm Password"
                 type="submit"
-                className="w-full"
+                isLoading={isloading}
               />
             </div>
           </form>

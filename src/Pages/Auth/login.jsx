@@ -58,6 +58,7 @@ const Home = () => {
     try {
       setIsloading(true);
       const result = await login(formValues.email, formValues.password);
+      console.log("result", result);
 
       if (result.status === 200) {
         const userData = {
@@ -68,6 +69,7 @@ const Home = () => {
           userId: result.user.id,
         };
         localStorage.setItem("userData", JSON.stringify(userData));
+        localStorage.setItem("isLoggedIn", "true");
 
         toast.success(result.message || "Login successfulllyyy!!!!!!");
         navigate("/home");

@@ -9,7 +9,7 @@ import { CiStar } from "react-icons/ci";
 import { HiMiniArrowsRightLeft } from "react-icons/hi2";
 import { allProducts } from "../../apiCalls/products/products.js";
 import { IoFilterSharp } from "react-icons/io5";
-import { addCart } from "../../apiCalls/cart/cart.js";
+import { addCart, getCart } from "../../apiCalls/cart/cart.js";
 import KirstBenefits from "../../Elements/KirstBenefits.jsx";
 import FilterBar from "../../Elements/FilterBar.jsx";
 import filterProduct from "../../Utils/filterProduct.js";
@@ -26,6 +26,7 @@ const ProductCategories = () => {
   const [isColorOpen, setIsColorOpen] = useState(false);
   const [productData, setproductData] = useState([]);
   const [checkedSizeItems, setCheckedSizeItems] = useState({});
+  const [isloading, setIsloading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -48,8 +49,29 @@ const ProductCategories = () => {
     addWishList(id);
   };
 
-  const addToCart = (obj) => {
-    addCart(obj);
+  const addToCart = async () => {
+    const productDetails = {
+      productName: product?.productName,
+      productPrice: product?.price,
+      productImage: product?.thumbnail,
+    };
+
+    const cartItem = {
+      ...productDetails,
+      size: sentSize,
+      color: selectedColor,
+      quantity: quantity,
+    };
+    const response = await addCart(cartItem);
+    await getCart();
+    console.log(response);
+
+    if (response.status === 200 || 201) {
+      toast.success(response.message);
+      setIsloading(false);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   const handlePriceCheck = (id) => {
@@ -66,6 +88,7 @@ const ProductCategories = () => {
   const togglePrice = () => {
     setIsPriceOpen((prev) => !prev);
   };
+
   const toggleSize = () => {
     setISizeopen((prev) => !prev);
   };
@@ -76,8 +99,10 @@ const ProductCategories = () => {
   useEffect(() => {
     const xyz = async () => {
       try {
+        setIsloading(true);
         const productArr = await allProducts();
         setproductData(productArr.data);
+        setIsloading(false);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -296,52 +321,76 @@ const ProductCategories = () => {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center items-center">
-          {productData.map((obj) => (
-            <div
-              className="flex flex-col px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 2xl:px-12 relative group"
-              key={obj.id}
+        <div className="flex justify-center items-center w-full">
+          {isloading ? (
+            <svg
+              aria-hidden="true"
+              className="w-20 h-20 text-gray-200 animate-spin dark:text-gray-600 fill-black"
+              viewBox="0 0 100 101"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  shadow-lg lg:h-[300px] xl:h-[350px] xl:w-[280px] p-4 flex items-center justify-center relative">
-                <img
-                  src={obj.images}
-                  className="w-full h-auto max-h-full object-cover rounded-lg"
-                  alt="Product"
-                />
-                <div className="flex absolute right-5 top-10 flex-col gap-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
-                  <div
-                    onClick={() => addtowishList(obj._id)}
-                    className="bg-white rounded-full button p-1 shadow-md"
-                  >
-                    <CiStar size={20} />
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="currentColor"
+              />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentFill"
+              />
+            </svg>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center items-center">
+              {productData.map((obj) => (
+                <div
+                  className="flex flex-col px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 2xl:px-12 relative group"
+                  key={obj.id}
+                >
+                  <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  shadow-lg lg:h-[300px] xl:h-[350px] xl:w-[280px] p-4 flex items-center justify-center relative">
+                    <img
+                      onClick={() => handleProductDetail(obj._id)}
+                      src={obj.images}
+                      className="w-full h-auto max-h-full object-cover rounded-lg"
+                      alt="Product"
+                    />
+                    <div className="flex absolute right-5 top-10 flex-col gap-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
+                      <div
+                        onClick={() => addtowishList(obj._id)}
+                        className="bg-white rounded-full button p-1 shadow-md"
+                      >
+                        <CiStar size={20} />
+                      </div>
+                      <div className="bg-white rounded-full button p-1 shadow-md">
+                        <HiMiniArrowsRightLeft size={20} />
+                      </div>
+                      <div
+                        onClick={() => handleProductDetail(obj._id)}
+                        className="bg-white rounded-full button p-1 shadow-md"
+                      >
+                        <FiEye size={20} />
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => addToCart()}
+                      className="absolute bottom-5 left-[50%] -translate-x-1/2 w-[60%] p-2 rounded-[9px] button text-[13px] bg-white text-gray-600 font-medium opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300 shadow-md"
+                    >
+                      Add to Cart
+                    </button>
                   </div>
-                  <div className="bg-white rounded-full button p-1 shadow-md">
-                    <HiMiniArrowsRightLeft size={20} />
-                  </div>
-                  <div
-                    onClick={() => handleProductDetail(obj._id)}
-                    className="bg-white rounded-full button p-1 shadow-md"
-                  >
-                    <FiEye size={20} />
+                  <p className="text-[20px] barlow-bold mt-2">
+                    {obj.brandName}
+                  </p>
+                  <p className="text-[15px] barlow-medium">{obj.productName}</p>
+                  <div className="flex gap-2">
+                    <p>${obj.price}</p>
+                    <p className="text-gray-400 line-through decoration-gray-400">
+                      ${obj.discountedPrice}
+                    </p>
                   </div>
                 </div>
-                <button
-                  onClick={() => addToCart(obj)}
-                  className="absolute bottom-5 left-[50%] -translate-x-1/2 w-[60%] p-2 rounded-[9px] button text-[13px] bg-white text-gray-600 font-medium opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300 shadow-md"
-                >
-                  Add to Cart
-                </button>
-              </div>
-              <p className="text-[20px] barlow-bold mt-2">{obj.brandName}</p>
-              <p className="text-[15px] barlow-medium">{obj.productName}</p>
-              <div className="flex gap-2">
-                <p>${obj.price}</p>
-                <p className="text-gray-400 line-through decoration-gray-400">
-                  ${obj.discountedPrice}
-                </p>
-              </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
       </div>
       <KirstBenefits />

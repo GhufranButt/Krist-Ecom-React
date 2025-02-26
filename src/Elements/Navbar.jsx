@@ -9,7 +9,6 @@ import SideBar from "./SideBar.jsx";
 import { FaBars } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { getCart } from "../apiCalls/cart/cart.js";
-
 import categories from "../Utils/shopByCatData.js";
 
 const Navbar = () => {
@@ -20,7 +19,7 @@ const Navbar = () => {
   const [numberOfCartItems, setNumberOfCartItems] = useState([]);
 
   useEffect(() => {
-    setIsAuthenticated(!!localStorage.getItem("token"));
+    setIsAuthenticated(!!localStorage.getItem("userData"));
 
     const abc = async () => {
       try {
@@ -34,7 +33,7 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     setIsAuthenticated(false);
   };
 
@@ -49,7 +48,7 @@ const Navbar = () => {
     navigate("/home");
   };
   const handleLoginClick = () => {
-    navigate("/");
+    navigate("/login");
   };
 
   const handleCart = () => {
@@ -81,9 +80,14 @@ const Navbar = () => {
               src={shoppingBag}
               className="cursor-pointer button h-[20px] w-[20px] xl:w-[30px] xl:h-[30px]"
             />
-            <div className="absolute text-[12px] lg:text-[18px] barlow-bold text-black rounded-full flex justify-center items-center w-4 h-4 lg:w-6 lg:h-6 bottom-3 left-3 lg:bottom-4 lg:left-4 bg-white border border-black">
-              {numberOfCartItems?.length}
-            </div>
+
+            {isAuthenticated ? (
+              <div className="absolute text-[12px] lg:text-[18px] barlow-bold text-black rounded-full flex justify-center items-center w-4 h-4 lg:w-6 lg:h-6 bottom-3 left-3 lg:bottom-4 lg:left-4 bg-white border border-black">
+                {numberOfCartItems?.length}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
 
           <div className="flex items-center  gap-4 px-2 xl:px-7  lg:hidden">

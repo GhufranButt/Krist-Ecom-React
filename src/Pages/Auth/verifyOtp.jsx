@@ -23,13 +23,13 @@ const VerifyOtp = () => {
 
     if (!otp || otp.length < 5) {
       errors.otp = "OTP is required";
-    }
+    }  else
 
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const isValid = validateForm();
@@ -39,15 +39,18 @@ const VerifyOtp = () => {
 
     try {
       setIsloading(true);
-      const response = verifyOtp(otp);
-      if (response.status === 200) {
-        toast.success(response.message);
-        setIsloading(false);
-      } else {
+      const response = await verifyOtp(otp);
+
+      if (response.status === 404) {
         toast.error(response.message);
         setIsloading(false);
+      } else {
+        toast.success(response.message);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      toast.error("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -90,8 +93,8 @@ const VerifyOtp = () => {
               secret
               secretDelay={100}
               onChange={handleOtpChange}
-              type="numeric"
-              inputMode="number"
+              type="string"
+              inputMode="string|number"
               style={{ padding: "10px" }}
               inputStyle={{
                 width: "70px",
@@ -112,7 +115,7 @@ const VerifyOtp = () => {
               }}
               onComplete={(value) => setOtp(value)}
               autoSelect={true}
-              regexCriteria={/^[0-9]*$/}
+              regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
             />
 
             {errors.otp && (

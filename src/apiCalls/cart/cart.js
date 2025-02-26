@@ -35,7 +35,6 @@ export const getCart = async () => {
 
 // need to send only cartID
 export const deleteCart = async (id) => {
-  console.log("-------->", id);
   const body = {
     cartId: id,
   };
