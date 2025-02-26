@@ -11,6 +11,7 @@ import Cart from "../src/Pages/Cart/Cart.jsx";
 import PublicRoutes from "../src/Routing/PublicRoutes.jsx";
 import PrivateRoutes from "../src/Routing/PrivateRoutes.jsx";
 import ProceedTocheckOut from "../src/Pages/Checkout/ProceedTocheckOut.jsx";
+import NotFound from "../src/Pages/NotFound/NotFound.jsx";
 import { ToastContainer } from "react-toastify";
 
 import {
@@ -42,6 +43,7 @@ const router = createBrowserRouter(
       <Route element={<PrivateRoutes />}></Route>
 
       <Route path="/" element={<Navigate to="/home" />} />
+      <Route path="*" element={<NotFound />} />
     </>
   )
 );
