@@ -4,9 +4,12 @@ import kristLogo from "../../../assets/kristlog.svg";
 import ArrowLeft from "../../../assets/arrow-left.svg";
 import { useNavigate } from "react-router-dom";
 import { confirmPassword } from "../../apiCalls/authentication/auth.js";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-const ConfrimPassword = () => {
+const ConfirmPassword = () => {
+  const [passShow, setPassShow] = useState(false);
+  const [confirmPassShow, setConfirmPassShow] = useState(false);
   const [formValues, setFormValues] = useState({
     password: "",
     confirmpassword: "",
@@ -16,8 +19,15 @@ const ConfrimPassword = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setFormValues({ ...formValues, [name]: value });
+  };
+
+  const passwordShow = () => {
+    setPassShow(!passShow);
+  };
+
+  const confirmedPasswordShow = () => {
+    setConfirmPassShow(!confirmPassShow);
   };
 
   const validateForm = () => {
@@ -51,8 +61,6 @@ const ConfrimPassword = () => {
       formValues.confirmpassword
     );
 
-    console.log(result);
-
     if (result.status === 200) {
       toast.success(result.message);
     } else {
@@ -64,7 +72,7 @@ const ConfrimPassword = () => {
     <div className="flex md:flex-row justify-center items-center h-screen">
       <div className="bg-[url(/assets/OtpImg.png)] bg-no-repeat  w-[50%] hidden lg:flex  lg:w-1/2 h-[50vh] lg:h-screen  bg-cover bg-center">
         <div className="flex  justify-center items-center gap-1 h-[50px] w-[50px] mt-16 ml-[100px]">
-          <img src={kristLogo} className="h-full w-full" />
+          <img src={kristLogo} className="h-full w-full" alt="Krist Logo" />
           <p className="text-black text-[50px]">Krist</p>
         </div>
       </div>
@@ -75,7 +83,7 @@ const ConfrimPassword = () => {
               onClick={() => navigate("/forgotpassword")}
               className="flex cursor-pointer mb-6 gap-1"
             >
-              <img src={ArrowLeft} />
+              <img src={ArrowLeft} alt="Back Arrow" />
               <p
                 className="hover:text-black hover:font-bold transition duration-300"
                 onClick={() => navigate("/forgotpassword")}
@@ -97,14 +105,23 @@ const ConfrimPassword = () => {
                 <label className="text-sm font-medium" htmlFor="password">
                   Password
                 </label>
-                <input
-                  className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                  name="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  onChange={handleChange}
-                  value={formValues.password}
-                />
+                <div className="relative w-full">
+                  <input
+                    className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                    name="password"
+                    type={passShow ? "text" : "password"}
+                    placeholder="Enter your password"
+                    onChange={handleChange}
+                    value={formValues.password}
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 button right-3 flex items-center text-gray-600"
+                    onClick={passwordShow}
+                  >
+                    {passShow ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                  </button>
+                </div>
                 {errors.password && (
                   <p className="text-red-500 text-sm">{errors.password}</p>
                 )}
@@ -116,14 +133,27 @@ const ConfrimPassword = () => {
                 >
                   Confirm Password
                 </label>
-                <input
-                  className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                  name="confirmpassword"
-                  type="password"
-                  onChange={handleChange}
-                  value={formValues.confirmpassword}
-                  placeholder="Enter your password"
-                />
+                <div className="relative w-full">
+                  <input
+                    className="border border-gray-600  rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                    name="confirmpassword"
+                    type={confirmPassShow ? "text" : "password"}
+                    onChange={handleChange}
+                    value={formValues.confirmpassword}
+                    placeholder="Enter your password"
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-3 button flex items-center text-gray-600"
+                    onClick={confirmedPasswordShow}
+                  >
+                    {confirmPassShow ? (
+                      <FaEyeSlash size={20} />
+                    ) : (
+                      <FaEye size={20} />
+                    )}
+                  </button>
+                </div>
                 {errors.confirmpassword && (
                   <p className="text-red-500 text-sm">
                     {errors.confirmpassword}
@@ -145,4 +175,4 @@ const ConfrimPassword = () => {
   );
 };
 
-export default ConfrimPassword;
+export default ConfirmPassword;

@@ -7,6 +7,7 @@ import ProductCategories from "./Pages/Products/ProductCategories.jsx";
 import ProductDetail from "./Pages/Products/ProductDetail.jsx";
 import AddProduct from "./addProduct.jsx";
 import Home from "../src/Pages/Home/home.jsx";
+import Cart from "../src/Pages/Cart/Cart.jsx";
 import { ToastContainer } from "react-toastify";
 
 import {
@@ -31,6 +32,7 @@ const router = createBrowserRouter(
         <Route path="/product-categories" element={<ProductCategories />} />
         <Route path="/product-details/:id" element={<ProductDetail />} />
         <Route path="/addProduct" element={<AddProduct />} />
+        <Route path="/Cart" element={<Cart />} />
       </Route>
     </>
   )

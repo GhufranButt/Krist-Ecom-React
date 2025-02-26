@@ -51,7 +51,6 @@ const BestSellers = () => {
       },
     ],
   };
-  console.log("current slide", currentSlide);
 
   return (
     <div className="flex flex-col justify-center py-3 items-center gap-5">

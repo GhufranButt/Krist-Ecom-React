@@ -4,10 +4,13 @@ import kristLogo from "../../../assets/kristlog.svg";
 import ArrowLeft from "../../../assets/arrow-left.svg";
 import { useNavigate } from "react-router-dom";
 import PinInput from "react-pin-input";
+import { verifyOtp } from "../../apiCalls/authentication/auth";
+import { toast } from "react-toastify";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState("");
   const [errors, setErrors] = useState({});
+  const [isloading, setIsloading] = useState(false);
   const navigate = useNavigate();
 
   const handleOtpChange = (value) => {
@@ -20,8 +23,6 @@ const VerifyOtp = () => {
 
     if (!otp || otp.length < 5) {
       errors.otp = "OTP is required";
-    } else if (otp !== "12345") {
-      errors.otp = "Invalid OTP";
     }
 
     setErrors(errors);
@@ -30,9 +31,23 @@ const VerifyOtp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      console.log("OTP verified successfully:", otp);
+
+    const isValid = validateForm();
+    if (!isValid) {
+      return;
     }
+
+    try {
+      setIsloading(true);
+      const response = verifyOtp(otp);
+      if (response.status === 200) {
+        toast.success(response.message);
+        setIsloading(false);
+      } else {
+        toast.error(response.message);
+        setIsloading(false);
+      }
+    } catch (error) {}
   };
 
   return (
@@ -104,7 +119,12 @@ const VerifyOtp = () => {
               <p className="text-red-500 text-sm mt-2">{errors.otp}</p>
             )}
             <div className="w-[450px]">
-              <Button text="Verify OTP" type="submit" className="w-full" />
+              <Button
+                text="Verify OTP"
+                type="submit"
+                className="w-full"
+                isLoading={isloading}
+              />
             </div>
           </form>
         </div>

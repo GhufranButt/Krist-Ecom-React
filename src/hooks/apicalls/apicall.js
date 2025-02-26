@@ -1,5 +1,7 @@
-const BASE_URL = "http://192.168.10.120:3001";
+const BASE_URL = "https://ecommerce-be-one.vercel.app";
+// http://192.168.10.120:3001
 
+// https://4f76-182-185-135-35.ngrok-free.app
 const apiCall = async (url, method, body = null) => {
   const token = localStorage.getItem("token");
   const options = {

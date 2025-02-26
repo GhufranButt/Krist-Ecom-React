@@ -5,11 +5,17 @@
   }
 }
 .container {
-  margin: 0 auto;
-  max-width: 1320;
-  padding: 0px 32px;
-  width: 100%;
-  background-color: transparent;
+  margin: 0;
+  max-width: 1820;
+  padding: 0px;
+}
+
+
+
+
+.compact {
+  padding: 8px;
+  width: 20%; 
 }
 
 .slick-slide > div {

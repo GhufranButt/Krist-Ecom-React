@@ -51,7 +51,6 @@ const ProductCategories = () => {
   const addToCart = (obj) => {
     addCart(obj);
   };
-  console.log("product on cart", productData);
 
   const handlePriceCheck = (id) => {
     setCheckedSizeItems((prev) => ({
@@ -85,8 +84,6 @@ const ProductCategories = () => {
     };
     xyz();
   }, []);
-
-  console.log("all product", productData);
 
   return (
     <div>

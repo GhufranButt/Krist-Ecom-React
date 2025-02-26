@@ -25,22 +25,17 @@ const AddProduct = () => {
     setProduct({ ...product, [name]: value });
   };
 
-  console.log("product data", product);
-
   const handleImageChange = async (e) => {
     const imageUrl = e.target.files[0];
 
     if (imageUrl) {
       const uniqueFileName = `${imageUrl.name}-${v4()}`;
       const imageRef = ref(storage, `kristImagesUrl/${uniqueFileName}`);
-      console.log("imageRef", imageRef);
 
       try {
         const snapshot = await uploadBytes(imageRef, imageUrl);
-        console.log("snapshot", snapshot);
 
         const downloadURL = await getDownloadURL(snapshot.ref);
-        console.log("Image URL:", downloadURL);
 
         if (downloadURL) {
           setProduct((prevProduct) => ({
@@ -58,7 +53,6 @@ const AddProduct = () => {
   };
 
   const handleSubmit = async (e) => {
-    // console.log("------------------------->", product);
     e.preventDefault();
     try {
       const docRef = await addProduct(product);
@@ -75,7 +69,6 @@ const AddProduct = () => {
         images: [],
       });
     } catch (error) {
-      console.error("Error adding product: ", error);
       alert("Error adding product. Please try again.");
     }
   };

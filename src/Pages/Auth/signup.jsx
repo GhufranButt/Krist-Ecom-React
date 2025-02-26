@@ -4,9 +4,14 @@ import kristLogo from "../../../assets/kristlog.svg";
 import { register } from "../../apiCalls/authentication/auth.js";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
+  const [check, setCheck] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [passShow, setPassShow] = useState(false);
+  const [isloading, setIsloading] = useState(false);
   const navigate = useNavigate();
 
   const [formValues, setFormValues] = useState({
@@ -15,8 +20,10 @@ const Home = () => {
     email: "",
     password: "",
   });
-  const [check, setCheck] = useState(false);
-  const [errors, setErrors] = useState({});
+
+  const passwordShow = () => {
+    setPassShow(!passShow);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,6 +65,7 @@ const Home = () => {
     }
 
     try {
+      setIsloading(true);
       const result = await register(
         formValues.email,
         formValues.password,
@@ -66,9 +74,11 @@ const Home = () => {
       );
       if (result.status === 400) {
         toast.error(result.message);
+        setIsloading(false);
       } else {
         navigate("/");
         toast.success(result.message);
+        setIsloading(false);
       }
     } catch (error) {
       console.log("EEWLLWKELKWLK", error);
@@ -151,14 +161,23 @@ const Home = () => {
               <label className="text-sm font-medium" htmlFor="password">
                 Password
               </label>
-              <input
-                className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                name="password"
-                type="password"
-                placeholder="Enter your password"
-                value={formValues.password}
-                onChange={handleChange}
-              />
+              <div className="relative w-full">
+                <input
+                  className="border border-gray-600 rounded-md w-full h-12 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                  name="password"
+                  type={passShow ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={formValues.password}
+                  onChange={handleChange}
+                />
+                <button
+                  type="button"
+                  className="absolute button inset-y-0 right-3 flex items-center text-gray-600"
+                  onClick={passwordShow}
+                >
+                  {passShow ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                </button>
+              </div>
               {errors.password && (
                 <p className="text-red-500 text-sm">{errors.password}</p>
               )}
@@ -186,7 +205,12 @@ const Home = () => {
               </p>
             </div>
             <div className="w-full">
-              <Button text="Login" type="submit" className="w-full" />
+              <Button
+                text="Login"
+                type="submit"
+                className="w-full"
+                isLoading={isloading}
+              />
             </div>
           </form>
         </div>

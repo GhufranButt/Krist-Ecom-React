@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 const ForgotPassword = () => {
   const [formValues, setFormValues] = useState({ email: "" });
   const [errors, setErrors] = useState({});
+  const [isloading, setIsloading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,12 +25,15 @@ const ForgotPassword = () => {
     }
 
     try {
+      setIsloading(true);
       const result = await forgotPassword(formValues.email);
-      console.log(result);
 
       if (result.status === 200) {
         toast.success(result.message);
+        setIsloading(false);
+        navigate("/verifyOtp");
       } else {
+        setIsloading(false);
         toast.error(result.message);
       }
     } catch (error) {
@@ -95,7 +99,12 @@ const ForgotPassword = () => {
               )}
             </div>
             <div className="w-full">
-              <Button text="Send OTP" type="submit" className="w-full" />
+              <Button
+                text="Send OTP"
+                type="submit"
+                className="w-full"
+                isLoading={isloading}
+              />
             </div>
           </form>
         </div>

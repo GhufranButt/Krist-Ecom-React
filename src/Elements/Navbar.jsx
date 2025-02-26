@@ -8,6 +8,7 @@ import searchSvg from "../../assets/search.svg";
 import SideBar from "./SideBar.jsx";
 import { FaBars } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { getCart } from "../apiCalls/cart/cart.js";
 
 import categories from "../Utils/shopByCatData.js";
 
@@ -16,9 +17,20 @@ const Navbar = () => {
   const [openBar, setopenBar] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [numberOfCartItems, setNumberOfCartItems] = useState([]);
 
   useEffect(() => {
     setIsAuthenticated(!!localStorage.getItem("token"));
+
+    const abc = async () => {
+      try {
+        const response = await getCart();
+        setNumberOfCartItems(response.cartItems);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    abc();
   }, []);
 
   const handleLogout = () => {
@@ -38,6 +50,10 @@ const Navbar = () => {
   };
   const handleLoginClick = () => {
     navigate("/");
+  };
+
+  const handleCart = () => {
+    navigate("/cart");
   };
 
   return (
@@ -60,10 +76,16 @@ const Navbar = () => {
             src={favourite}
             className="cursor-pointer h-[20px] w-[20px] xl:w-[30px] xl:h-[30px]"
           />
-          <img
-            src={shoppingBag}
-            className="cursor-pointer h-[20px] w-[20px] xl:w-[30px] xl:h-[30px]"
-          />
+          <div onClick={handleCart} className="flex relative w-full">
+            <img
+              src={shoppingBag}
+              className="cursor-pointer button h-[20px] w-[20px] xl:w-[30px] xl:h-[30px]"
+            />
+            <div className="absolute text-[12px] lg:text-[18px] barlow-bold text-black rounded-full flex justify-center items-center w-4 h-4 lg:w-6 lg:h-6 bottom-3 left-3 lg:bottom-4 lg:left-4 bg-white border border-black">
+              {numberOfCartItems?.length}
+            </div>
+          </div>
+
           <div className="flex items-center  gap-4 px-2 xl:px-7  lg:hidden">
             <FaBars
               onClick={openSideBar}
@@ -75,7 +97,7 @@ const Navbar = () => {
                 <button
                   type="button"
                   onClick={openSideBar}
-                  className="text-gray-400 absolute bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 top-5 end-20 flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  className="text-gray-400 absolute bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 top-5 end-3 flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
                 >
                   <svg
                     className="w-3 h-3"
