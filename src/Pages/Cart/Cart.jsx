@@ -10,7 +10,6 @@ const Cart = () => {
   const [numberOfCartItems, setNumberOfCartItems] = useState([]);
   const [isloading, setIsloading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  console.log("isAuthenticated", isAuthenticated);
 
   const navigate = useNavigate();
 
@@ -42,24 +41,26 @@ const Cart = () => {
     }
   };
 
-  const decreaseQuantity = (id) => {
-    setNumberOfCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item._id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
+  // const increaseQuantity = (id) => {
+  //   const abc = numberOfCartItems.map((obj) => {
+  //     if (obj._id === id && obj.quantity < 5) {
+  //       return { ...obj, quantity: obj.quantity + 1 };
+  //     }
+  //     return obj;
+  //   });
+  //   return abc;
+  // };
 
   const increaseQuantity = (id) => {
-    setNumberOfCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item._id === id && item.quantity < 5
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
-    );
+    const abc = numberOfCartItems.map((obj) => {
+      if (obj._id == id) {
+        return { ...obj, quantity: obj.quantity + 1 };
+      }
+      return obj;
+    });
+
+    setNumberOfCartItems(abc);
+    return abc;
   };
 
   const cartDelete = async (id) => {
@@ -68,6 +69,7 @@ const Cart = () => {
       prevItems.filter((item) => item._id !== id)
     );
   };
+  console.log(numberOfCartItems);
 
   return (
     <>

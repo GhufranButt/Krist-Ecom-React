@@ -58,7 +58,6 @@ const Home = () => {
     try {
       setIsloading(true);
       const result = await login(formValues.email, formValues.password);
-      console.log("result", result);
 
       if (result.status === 200) {
         const userData = {

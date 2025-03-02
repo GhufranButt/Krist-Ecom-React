@@ -201,7 +201,7 @@ const ProductDetail = () => {
                       <div
                         onClick={() => handleColor(obj.color)}
                         style={{ backgroundColor: obj.color }}
-                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-[4px] border border-gray-300 cursor-pointer"
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-[4px] button border border-gray-300 cursor-pointer"
                       />
                     </div>
                   ))}
@@ -215,7 +215,7 @@ const ProductDetail = () => {
                       onClick={() => {
                         handleSizeClick(size.id);
                       }}
-                      className={`flex justify-center cursor-pointer rounded-[8px] items-center border border-black p-2 w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] ${
+                      className={`flex justify-center cursor-pointer button rounded-[8px] items-center border border-black p-2 w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] ${
                         selectedSize === size.id
                           ? "bg-black text-white"
                           : "bg-white text-black"

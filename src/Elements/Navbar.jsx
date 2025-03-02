@@ -17,6 +17,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [numberOfCartItems, setNumberOfCartItems] = useState([]);
+  const [inputTagOpen, setInputTagOpen] = useState(false);
 
   useEffect(() => {
     setIsAuthenticated(!!localStorage.getItem("userData"));
@@ -55,9 +56,13 @@ const Navbar = () => {
     navigate("/cart");
   };
 
+  const handleInput = () => {
+    setInputTagOpen((pre) => !pre);
+  };
+
   return (
     <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm  dark:bg-neutral-800">
-      <nav className="max-w-[103rem] w-full relative mx-auto flex flex-wrap basis-full py-1 lg:py-4 items-center px-8 justify-between">
+      <nav className="max-w-[103rem] w-full mx-auto flex  py-1 lg:py-4 items-center px-8 justify-between">
         <a
           onClick={handleNavigate}
           className="sm:order-1 flex justify-center items-center text-xl font-semibold dark:text-white focus:outline-none focus:opacity-80"
@@ -68,6 +73,7 @@ const Navbar = () => {
         </a>
         <div className="sm:order-3 flex justify-between items-center gap-2 xl:gap-8">
           <img
+            onClick={handleInput}
             src={searchSvg}
             className="cursor-pointer h-[20px] w-[20px] xl:w-[30px] xl:h-[30px]"
           />
@@ -134,86 +140,104 @@ const Navbar = () => {
             />
           )}
         </div>
-        <div
-          id="hs-navbar-alignment"
-          className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:grow-0 sm:basis-auto sm:block sm:order-2"
-          aria-labelledby="hs-navbar-alignment-collapse"
-        >
-          <div className=" hidden lg:flex gap-12 items-center">
-            <a
-              onClick={handleNavigate}
-              className="font-medium text-[25px] text-gray-600 focus:outline-none"
-              href="#"
-              aria-current="page"
-            >
-              Home
-            </a>
 
-            <div
-              onClick={toggleList}
-              className="flex justify-center items-center gap-3 cursor-pointer mx-auto "
-            >
+        {inputTagOpen ? (
+          <div
+            id="hs-navbar-alignment"
+            className="hs-collapse  overflow-hidden transition-all duration-300 basis-full grow sm:grow-0 sm:basis-auto sm:block sm:order-2"
+            aria-labelledby="hs-navbar-alignment-collapse"
+          >
+            <input
+              type="text"
+              placeholder="Enter your search"
+              className=" w-[200px] md:w-[400px] lg:w-[900px] bg-gray-50 outline-none border-2 border-gray-300 hover:border-gray-400
+             focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition-all duration-300 ease-in-out 
+             transform hover:scale-105 focus:scale-105 px-4 py-3 rounded-lg
+              placeholder:text-gray-400 placeholder:italic placeholder:text-sm shadow-sm hover:shadow-md focus:shadow-lg"
+            />
+          </div>
+        ) : (
+          <div
+            id="hs-navbar-alignment"
+            className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:grow-0 sm:basis-auto sm:block sm:order-2"
+            aria-labelledby="hs-navbar-alignment-collapse"
+          >
+            <div className=" hidden lg:flex gap-12 items-center">
+              <a
+                onClick={handleNavigate}
+                className="font-medium text-[25px] text-gray-600 focus:outline-none"
+                href="#"
+                aria-current="page"
+              >
+                Home
+              </a>
+
+              <div
+                onClick={toggleList}
+                className="flex justify-center items-center gap-3 cursor-pointer mx-auto "
+              >
+                <a
+                  className="font-medium text-gray-600 text-[25px] hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                  href="#"
+                >
+                  Shop
+                </a>
+                <img
+                  src={upArrow}
+                  className={`w-4 h-4 transition-transform ${
+                    isOpen ? "rotate-180" : ""
+                  }`}
+                />
+                {isOpen && (
+                  <div className="bg-[#FFFFFF] z-[999] flex flex-col lg:flex-row items-start text-white shadow-xl ring-2 ring-slate-100 absolute top-20 left-32 px-5 py-6">
+                    {categories.map((category, index) => (
+                      <div
+                        key={index}
+                        className={`flex flex-col gap-4 border-gray-200 px-4 ${
+                          index === 0
+                            ? "border-r"
+                            : index !== categories.length
+                            ? "border-l"
+                            : ""
+                        }`}
+                      >
+                        <h3 className="font-bold text-lg text-black">
+                          {category.name}
+                        </h3>
+                        <div className="flex flex-col text-gray-600 gap-3">
+                          {category.items.map((item, i) => (
+                            <p key={i} className="text-nowrap text-sm">
+                              {item}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <a
                 className="font-medium text-gray-600 text-[25px] hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
                 href="#"
               >
-                Shop
+                Our Story
               </a>
-              <img
-                src={upArrow}
-                className={`w-4 h-4 transition-transform ${
-                  isOpen ? "rotate-180" : ""
-                }`}
-              />
-              {isOpen && (
-                <div className="bg-[#FFFFFF] z-[999] flex flex-col lg:flex-row items-start text-white shadow-xl ring-2 ring-slate-100 absolute top-20 left-32 px-5 py-6">
-                  {categories.map((category, index) => (
-                    <div
-                      key={index}
-                      className={`flex flex-col gap-4 border-gray-200 px-4 ${
-                        index === 0
-                          ? "border-r"
-                          : index !== categories.length
-                          ? "border-l"
-                          : ""
-                      }`}
-                    >
-                      <h3 className="font-bold text-lg text-black">
-                        {category.name}
-                      </h3>
-                      <div className="flex flex-col text-gray-600 gap-3">
-                        {category.items.map((item, i) => (
-                          <p key={i} className="text-nowrap text-sm">
-                            {item}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <a
+                className="font-medium text-gray-600 text-[25px] hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                href="#"
+              >
+                Blog
+              </a>
+              <a
+                className="font-medium text-gray-600 text-[25px] hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                href="#"
+              >
+                Contact Us
+              </a>
             </div>
-
-            <a
-              className="font-medium text-gray-600 text-[25px] hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-              href="#"
-            >
-              Our Story
-            </a>
-            <a
-              className="font-medium text-gray-600 text-[25px] hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-              href="#"
-            >
-              Blog
-            </a>
-            <a
-              className="font-medium text-gray-600 text-[25px] hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-              href="#"
-            >
-              Contact Us
-            </a>
           </div>
-        </div>
+        )}
       </nav>
     </header>
   );

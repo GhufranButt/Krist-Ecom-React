@@ -12,6 +12,7 @@ import PublicRoutes from "../src/Routing/PublicRoutes.jsx";
 import PrivateRoutes from "../src/Routing/PrivateRoutes.jsx";
 import ProceedTocheckOut from "../src/Pages/Checkout/ProceedTocheckOut.jsx";
 import NotFound from "../src/Pages/NotFound/NotFound.jsx";
+import CartHover from "./Elements/CartHover.jsx";
 import { ToastContainer } from "react-toastify";
 
 import {
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
         <Route path="/addProduct" element={<AddProduct />} />
         <Route path="/Cart" element={<Cart />} />
         <Route path="/check-out" element={<ProceedTocheckOut />} />
+        <Route path="/cartHover" element={<CartHover />} />
       </Route>
 
       <Route element={<PrivateRoutes />}></Route>
